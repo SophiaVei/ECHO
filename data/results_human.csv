@@ -1,0 +1,420 @@
+,SUMS
+"Questionnaire 1 (Applicant, Representation)/Hiring",
+Opportunity Loss:,10
+Economic Loss:,4
+Alienation:,2
+Increased Labor:,3
+Service or Benefit Loss:,6
+Loss of Agency or Control:,7
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,3
+Privacy Violation:,0
+,0
+"Questionnaire 1 (Applicant Group, Representation)/Hiring",0
+Stereotyping,8
+Demeaning,6
+Erasing.,6
+Denying self-identity,4
+Reifying categories,3
+Alienation,2
+None,2
+,0
+"Questionnaire 1 (Applicant, Algorithmic)/Hiring",0
+Opportunity Loss:,7
+Economic Loss:,7
+Alienation:,1
+Increased Labor:,6
+Service or Benefit Loss:,8
+Loss of Agency or Control:,3
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,1
+Privacy Violation:,0
+,0
+"Questionnaire 1 (Applicant Group, Algorithmic)/Hiring",0
+Stereotyping,5
+Demeaning,8
+Erasing.,3
+Denying self-identity,4
+Reifying categories,1
+Alienation,2
+None,5
+,0
+"Questionnaire 2 (Applicant, Measurement)/Hiring",0
+Opportunity Loss:,12
+Economic Loss:,2
+Alienation:,2
+Increased Labor:,5
+Service or Benefit Loss:,1
+Loss of Agency or Control:,2
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,8
+Privacy Violation:,1
+,0
+"Questionnaire 2 (Applicant Group, Measurement)/Hiring",0
+Stereotyping,5
+Demeaning,8
+Erasing.,2
+Denying self-identity,5
+Reifying categories,1
+Alienation,5
+None,4
+,0
+"Questionnaire 2 (Applicant, Deployment)/Hiring",0
+Opportunity Loss:,7
+Economic Loss:,2
+Alienation:,5
+Increased Labor:,1
+Service or Benefit Loss:,6
+Loss of Agency or Control:,3
+Technology-Facilitated Violence: ,1
+Diminished Health and Well-Being:,6
+Privacy Violation:,1
+,0
+"Questionnaire 2 (Applicant Group, Deployment)/Hiring",0
+Stereotyping,6
+Demeaning,6
+Erasing.,5
+Denying self-identity,1
+Reifying categories,2
+Alienation,3
+None,5
+,0
+"Questionnaire 3 (Developer, Representation)/Diagnosis",0
+Opportunity Loss:,2
+Economic Loss:,2
+Alienation:,4
+Increased Labor:,5
+Service or Benefit Loss:,5
+Loss of Agency or Control:,1
+Technology-Facilitated Violence: ,2
+Diminished Health and Well-Being:,11
+Privacy Violation:,0
+,0
+"Questionnaire 3 (Developer, Algorithmic)/Hiring",0
+Opportunity Loss:,8
+Economic Loss:,2
+Alienation:,2
+Increased Labor:,5
+Service or Benefit Loss:,6
+Loss of Agency or Control:,6
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,4
+Privacy Violation:,0
+,0
+"Questionnaire 4  (Developer, Measurement)/Diagnosis",0
+Opportunity Loss:,2
+Economic Loss:,1
+Alienation:,1
+Increased Labor:,5
+Service or Benefit Loss:,2
+Loss of Agency or Control:,6
+Technology-Facilitated Violence: ,1
+Diminished Health and Well-Being:,8
+Privacy Violation:,3
+,0
+"Questionnaire 4 (Developer, Deployment)/Hiring",0
+Opportunity Loss:,5
+Economic Loss:,5
+Alienation:,2
+Increased Labor:,6
+Service or Benefit Loss:,2
+Loss of Agency or Control:,8
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,2
+Privacy Violation:,0
+,0
+"Questionnaire 5 (Healthcare Institution, Representation)/Diagnosis",0
+Opportunity Loss:,4
+Economic Loss:,2
+Alienation:,1
+Increased Labor:,3
+Service or Benefit Loss:,4
+Loss of Agency or Control:,7
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,8
+Privacy Violation:,1
+,0
+"Questionnaire 5 (Company, Algorithmic)/Hiring)",0
+Opportunity Loss:,14
+Economic Loss:,3
+Alienation:,1
+Increased Labor:,0
+Service or Benefit Loss:,6
+Loss of Agency or Control:,3
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,1
+Privacy Violation:,0
+,0
+"Questionnaire 6 (Healthcare Institution, Measurement)/Diagnosis",0
+Opportunity Loss:,1
+Economic Loss:,1
+Alienation:,2
+Increased Labor:,6
+Service or Benefit Loss:,7
+Loss of Agency or Control:,5
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,9
+Privacy Violation:,1
+,0
+"Questionnaire 6 (Company, Deployment)/Hiring",0
+Opportunity Loss:,8
+Economic Loss:,3
+Alienation:,4
+Increased Labor:,2
+Service or Benefit Loss:,8
+Loss of Agency or Control:,1
+Technology-Facilitated Violence: ,1
+Diminished Health and Well-Being:,4
+Privacy Violation:,1
+,0
+"Questionnaire 7 (Applicant, Evaluation)/Hiring",0
+Opportunity Loss:,7
+Economic Loss:,5
+Alienation:,1
+Increased Labor:,2
+Service or Benefit Loss:,0
+Loss of Agency or Control:,2
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,3
+Privacy Violation:,0
+,0
+"Questionnaire 7 (Applicant group, Evaluation)/Hiring",0
+Stereotyping,1
+Demeaning,5
+Erasing.,1
+Denying self-identity,2
+Reifying categories,5
+Alienation,4
+None,1
+,0
+"Questionnaire 7 (Patient, Evaluation)/Diagnosis",0
+Opportunity Loss:,4
+Economic Loss:,4
+Alienation:,0
+Increased Labor:,0
+Service or Benefit Loss:,4
+Loss of Agency or Control:,2
+Technology-Facilitated Violence: ,1
+Diminished Health and Well-Being:,5
+Privacy Violation:,0
+,0
+"Questionnaire 7 (Patient group, Evaluation)/Diagnosis",0
+Stereotyping,1
+Demeaning,4
+Erasing.,2
+Denying self-identity,1
+Reifying categories,1
+Alienation,4
+None,3
+,0
+"Questionnaire 8 (Developer, Evaluation)/Hiring",0
+Opportunity Loss:,5
+Economic Loss:,2
+Alienation:,3
+Increased Labor:,7
+Service or Benefit Loss:,2
+Loss of Agency or Control:,6
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,5
+Privacy Violation:,2
+,0
+"Questionnaire 8 (Developer, Evaluation)/Diagnosis",0
+Opportunity Loss:,2
+Economic Loss:,3
+Alienation:,4
+Increased Labor:,8
+Service or Benefit Loss:,6
+Loss of Agency or Control:,0
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,7
+Privacy Violation:,1
+,0
+"Questionnaire 9 (Company, Evaluation)/Hiring",0
+Opportunity Loss:,10
+Economic Loss:,4
+Alienation:,0
+Increased Labor:,5
+Service or Benefit Loss:,7
+Loss of Agency or Control:,3
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,3
+Privacy Violation:,0
+,0
+"Questionnaire 9 (Healthcare Institution, Evaluation)/Diagnosis",0
+Opportunity Loss:,2
+Economic Loss:,2
+Alienation:,2
+Increased Labor:,6
+Service or Benefit Loss:,8
+Loss of Agency or Control:,4
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,11
+Privacy Violation:,0
+,0
+"Questionnaire 10 (Patient, Representation)/Diagnosis",0
+Opportunity Loss:,7
+Economic Loss:,3
+Alienation:,0
+Increased Labor:,2
+Service or Benefit Loss:,5
+Loss of Agency or Control:,2
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,8
+Privacy Violation:,1
+,0
+"Questionnaire 10  (Patient group, Representation)/Diagnosis",0
+Stereotyping,10
+Demeaning,4
+Erasing.,1
+Denying self-identity,6
+Reifying categories,1
+Alienation,2
+None,1
+,0
+"Questionnaire 10  (Patient, Algorithmic)/Diagnosis",0
+Opportunity Loss:,5
+Economic Loss:,0
+Alienation:,6
+Increased Labor:,0
+Service or Benefit Loss:,2
+Loss of Agency or Control:,2
+Technology-Facilitated Violence: ,1
+Diminished Health and Well-Being:,11
+Privacy Violation:,0
+,0
+"Questionnaire 10  (Patient group, Algorithmic)/Diagnosis",0
+Stereotyping,9
+Demeaning,2
+Erasing.,2
+Denying self-identity,2
+Reifying categories,5
+Alienation,3
+None,2
+,0
+"Questionnaire 11  (Patient, Measurement)/Diagnosis",0
+Opportunity Loss:,6
+Economic Loss:,2
+Alienation:,3
+Increased Labor:,0
+Service or Benefit Loss:,3
+Loss of Agency or Control:,3
+Technology-Facilitated Violence: ,2
+Diminished Health and Well-Being:,7
+Privacy Violation:,1
+,0
+"Questionnaire 11  (Patient group, Measurement)/Diagnosis",0
+Stereotyping,11
+Demeaning,2
+Erasing.,3
+Denying self-identity,9
+Reifying categories,2
+Alienation,1
+None,0
+,0
+"Questionnaire 11  (Patient, Deployment)/Diagnosis",0
+Opportunity Loss:,5
+Economic Loss:,2
+Alienation:,4
+Increased Labor:,3
+Service or Benefit Loss:,1
+Loss of Agency or Control:,3
+Technology-Facilitated Violence: ,1
+Diminished Health and Well-Being:,6
+Privacy Violation:,0
+,0
+"Questionnaire 11  (Patient group, Deployment)/Diagnosis",0
+Stereotyping,7
+Demeaning,3
+Erasing.,4
+Denying self-identity,3
+Reifying categories,1
+Alienation,1
+None,4
+,0
+"Questionnaire 12  (Developer, Representation)/Hiring",0
+Opportunity Loss:,7
+Economic Loss:,0
+Alienation:,7
+Increased Labor:,3
+Service or Benefit Loss:,5
+Loss of Agency or Control:,1
+Technology-Facilitated Violence: ,2
+Diminished Health and Well-Being:,6
+Privacy Violation:,0
+,0
+"Questionnaire 12 (Developer, Algorithmic)/Diagnosis",0
+Opportunity Loss:,1
+Economic Loss:,0
+Alienation:,4
+Increased Labor:,4
+Service or Benefit Loss:,9
+Loss of Agency or Control:,7
+Technology-Facilitated Violence: ,3
+Diminished Health and Well-Being:,3
+Privacy Violation:,0
+,0
+"Questionnaire 13 (Developer, Measurement)/Hiring",0
+Opportunity Loss:,7
+Economic Loss:,6
+Alienation:,5
+Increased Labor:,5
+Service or Benefit Loss:,2
+Loss of Agency or Control:,5
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,2
+Privacy Violation:,2
+,0
+"Questionnaire 13 (Developer, Deployment)/Diagnosis",0
+Opportunity Loss:,0
+Economic Loss:,1
+Alienation:,7
+Increased Labor:,6
+Service or Benefit Loss:,4
+Loss of Agency or Control:,6
+Technology-Facilitated Violence: ,2
+Diminished Health and Well-Being:,6
+Privacy Violation:,2
+,0
+"Questionnaire 14 (Company, Representation)/Hiring",0
+Opportunity Loss:,12
+Economic Loss:,2
+Alienation:,4
+Increased Labor:,6
+Service or Benefit Loss:,4
+Loss of Agency or Control:,4
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,4
+Privacy Violation:,0
+,0
+"Questionnaire 14 (Healthcare Institution, Algorithmic)/Diagnosis",0
+Opportunity Loss:,3
+Economic Loss:,1
+Alienation:,4
+Increased Labor:,5
+Service or Benefit Loss:,3
+Loss of Agency or Control:,5
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,13
+Privacy Violation:,2
+,0
+"Questionnaire 15 (Company, Measurement)/Hiring",0
+Opportunity Loss:,2
+Economic Loss:,2
+Alienation:,2
+Increased Labor:,1
+Service or Benefit Loss:,3
+Loss of Agency or Control:,0
+Technology-Facilitated Violence: ,1
+Diminished Health and Well-Being:,2
+Privacy Violation:,0
+,0
+"Questionnaire 15 (Healthcare Insitution, Deployment)/Diagnosis",0
+Opportunity Loss:,0
+Economic Loss:,2
+Alienation:,2
+Increased Labor:,2
+Service or Benefit Loss:,1
+Loss of Agency or Control:,1
+Technology-Facilitated Violence: ,0
+Diminished Health and Well-Being:,5
+Privacy Violation:,1
