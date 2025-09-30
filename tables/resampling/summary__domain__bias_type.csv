@@ -1,0 +1,2 @@
+pair,dof,chi2_obs,V_obs,perm_p_chi2,perm_p_V,boot_V_lo,boot_V_hi,boot_chi2_lo,boot_chi2_hi,perm_shuffled_side,perm_dist_csv,boot_dist_csv
+domain × bias_type,4,3.062967770197794,0.05188001374502857,0.972027972027972,0.972027972027972,0.05343714425505428,0.24803775042993223,3.269058592870124,70.4090678348901,bias_type,C:\Users\Sofia\PycharmProjects\FATES\tables\resampling\perm__domain__bias_type__dist.csv,C:\Users\Sofia\PycharmProjects\FATES\tables\resampling\boot__domain__bias_type__dist.csv

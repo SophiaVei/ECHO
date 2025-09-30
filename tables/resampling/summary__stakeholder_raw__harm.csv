@@ -1,0 +1,2 @@
+pair,dof,chi2_obs,V_obs,perm_p_chi2,perm_p_V,boot_V_lo,boot_V_hi,boot_chi2_lo,boot_chi2_hi,perm_shuffled_side,perm_dist_csv,boot_dist_csv
+stakeholder_raw × harm,84,1221.4347610901386,0.42294936916456627,0.000999000999000999,0.000999000999000999,0.43178846147126126,0.5024861781007188,1213.2584098657985,1766.0830096944508,harm,C:\Users\Sofia\PycharmProjects\FATES\tables\resampling\perm__stakeholder_raw__harm__dist.csv,C:\Users\Sofia\PycharmProjects\FATES\tables\resampling\boot__stakeholder_raw__harm__dist.csv

@@ -1,0 +1,2 @@
+pair,dof,chi2_obs,V_obs,perm_p_chi2,perm_p_V,boot_V_lo,boot_V_hi,boot_chi2_lo,boot_chi2_hi,perm_shuffled_side,perm_dist_csv,boot_dist_csv
+bias_type × harm,56,61.503418343537675,0.11623809947547303,1.0,1.0,0.21290394263760823,0.3091694431503164,205.80885277955696,441.516626717887,harm,C:\Users\Sofia\PycharmProjects\FATES\tables\resampling\perm__bias_type__harm__dist.csv,C:\Users\Sofia\PycharmProjects\FATES\tables\resampling\boot__bias_type__harm__dist.csv
