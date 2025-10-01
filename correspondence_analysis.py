@@ -225,3 +225,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# RUN python correspondence_analysis.py --rows bias_type --cols harm --domain hiring --stakeholder "applicant" for a specific stakeholder
