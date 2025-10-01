@@ -1,0 +1,3 @@
+Omnibus χ² over all bias rows (K×H):
+Table shape: 5×8 (N=147)
+Chi-square: χ² = 19.05, df = 28, p = 0.8965
