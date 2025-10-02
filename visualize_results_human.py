@@ -117,6 +117,79 @@ def wrap_labels(labels, width=18):
 
 # ------------------------ Insight plots ------------------------
 
+def plot_stacked_shares_by_domain(df: pd.DataFrame, title_suffix: str = ""):
+    """Stacked bar chart: domains on Y, stacked harms as shares."""
+    if df.empty: return
+    dff = df.copy()
+    dff["weighted_share"] = dff["vote_share"] * dff["total_votes"]
+    shares = (dff.groupby(["domain","harm"], as_index=False)
+                .agg(weighted_share=("weighted_share","sum"), total=("total_votes","sum")))
+    shares["share"] = shares["weighted_share"] / shares["total"]
+
+    domains = shares["domain"].drop_duplicates().tolist()
+    pivot = shares.pivot(index="domain", columns="harm", values="share").fillna(0.0)
+    pivot = pivot.loc[domains]
+
+    fig, ax = plt.subplots(figsize=(10, max(4.5, 0.45*len(pivot)+2)))
+    bottoms = np.zeros(len(pivot)); colors = color_cycle(pivot.shape[1])
+    for i, harm in enumerate(pivot.columns):
+        vals = pivot[harm].values
+        ax.barh(range(len(pivot)), vals, left=bottoms, label=harm, color=colors[i], edgecolor=FG_COLOR)
+        bottoms += vals
+    ax.set_yticks(range(len(pivot))); ax.set_yticklabels(pivot.index.tolist())
+    ax.set_xlabel("Share of votes (stacked by harm)")
+    ttl = "Harm Share Distribution by Domain"
+    if title_suffix: ttl += f" — {title_suffix}"
+    ax.set_title(ttl); ax.legend(ncol=2, bbox_to_anchor=(1.02, 1), loc="upper left"); ax.grid(axis="x")
+    fig.tight_layout(); fig.savefig(FIG_DIR / "11_stacked_shares_by_domain.png", bbox_inches="tight"); plt.close(fig)
+
+
+def plot_heatmap_domain_by_harm(df: pd.DataFrame, top_n_domains: int = None, top_m_harms: int = 10, title_suffix: str = ""):
+    """Domain (rows) × Harm (cols) weighted-share heatmap; optionally trim to top-N/M for readability."""
+    if df.empty: return
+    d = df.copy()
+    d["weighted_share"] = d["vote_share"] * d["total_votes"]
+
+    # pick domains (all or top-N by participation)
+    dom_tot = (d.groupby("domain", as_index=False)["total_votes"].sum()
+                 .sort_values("total_votes", ascending=False))
+    if top_n_domains is not None:
+        dom_tot = dom_tot.head(top_n_domains)
+    keep_dom = set(dom_tot["domain"])
+    d = d[d["domain"].isin(keep_dom)]
+
+    mat = (d.groupby(["domain","harm"], as_index=False)
+             .agg(weighted_share=("weighted_share","sum"), total=("total_votes","sum")))
+    mat["share"] = mat["weighted_share"] / mat["total"]
+
+    # take top harms by overall weighted share
+    top_h = (mat.groupby("harm", as_index=False)["weighted_share"].sum()
+               .sort_values("weighted_share", ascending=False).head(top_m_harms))["harm"].tolist()
+    mat = mat[mat["harm"].isin(top_h)]
+
+    rows = dom_tot["domain"].tolist()
+    cols = sorted(top_h)
+    grid = np.zeros((len(rows), len(cols)))
+    for i, r in enumerate(rows):
+        for j, c in enumerate(cols):
+            v = mat.loc[(mat["domain"] == r) & (mat["harm"] == c), "share"]
+            grid[i, j] = float(v.iloc[0]) if len(v) else 0.0
+
+    fig, ax = plt.subplots(figsize=(max(8, 0.45*len(cols)), max(4.5, 0.45*len(rows))))
+    cmap = cmap_white_to(HEAT_COLOR)
+    vmax = max(1e-6, float(grid.max()))
+    im = ax.imshow(grid, aspect="auto", cmap=cmap, vmin=0, vmax=vmax, interpolation="nearest")
+    ax.set_yticks(range(len(rows))); ax.set_yticklabels(rows)
+    ax.set_xticks(range(len(cols))); ax.set_xticklabels(wrap_labels(cols, 16), rotation=45, ha="right")
+    for i in range(len(rows)):
+        for j in range(len(cols)):
+            ax.text(j, i, f"{grid[i,j]*100:.0f}%", ha="center", va="center", color="#333333", fontsize=9)
+    ttl = "Harm Shares: Domain × Harm"
+    if title_suffix: ttl += f" — {title_suffix}"
+    ax.set_title(ttl); fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="Share")
+    fig.tight_layout(); fig.savefig(FIG_DIR / "12_heatmap_domain_by_harm.png", bbox_inches="tight"); plt.close(fig)
+
+
 def plot_overall_harm_shares(df: pd.DataFrame, title_suffix: str = ""):
     if df.empty: return
     harm_shares = (df.groupby("harm", as_index=False)
@@ -340,6 +413,10 @@ def main():
     parser.add_argument("--top_n_stakeholders", type=int, default=10, help="Top N stakeholders for stacked chart (default: 10)")
     parser.add_argument("--top_k_focus", type=int, default=4, help="How many stakeholders to auto-focus (heatmaps/domain splits) if none specified")
     parser.add_argument("--top_m_harms", type=int, default=10, help="Columns in stakeholder×harm heatmap (default: 10)")
+    parser.add_argument("--top_n_domains", type=int, default=None,
+                        help="Top N domains to show in domain heatmap (default: all)")
+    # reuse --top_m_harms for both stakeholder and domain heatmaps
+
     args = parser.parse_args()
 
     df = load_clean(Path(args.in_path))
@@ -357,6 +434,9 @@ def main():
     plot_stacked_shares_by_stakeholder(df, top_n_stakeholders=args.top_n_stakeholders, title_suffix=suffix)
     plot_top_harms_small_multiples(df, title_suffix=suffix, top_k_harms=6)
 
+    # NEW domain-focused distributions
+    plot_stacked_shares_by_domain(df, title_suffix=suffix)
+    plot_heatmap_domain_by_harm(df, top_n_domains=args.top_n_domains, top_m_harms=args.top_m_harms, title_suffix=suffix)
     # Participation/coverage
     plot_responses_by_questionnaire(df)
     plot_responses_by_stakeholder(df)
