@@ -168,44 +168,44 @@ Diminished Health and Well-Being:,4
 Privacy Violation:,1
 ,0
 "Questionnaire 7 (Applicant, Evaluation)/Hiring",0
-Opportunity Loss:,7
-Economic Loss:,5
+Opportunity Loss:,12
+Economic Loss:,10
 Alienation:,1
 Increased Labor:,2
 Service or Benefit Loss:,0
 Loss of Agency or Control:,2
 Technology-Facilitated Violence: ,0
-Diminished Health and Well-Being:,3
+Diminished Health and Well-Being:,4
 Privacy Violation:,0
 ,0
 "Questionnaire 7 (Applicant group, Evaluation)/Hiring",0
 Stereotyping,1
-Demeaning,5
+Demeaning,10
 Erasing.,1
 Denying self-identity,2
-Reifying categories,5
-Alienation,4
+Reifying categories,10
+Alienation,8
 None,1
 ,0
 "Questionnaire 7 (Patient, Evaluation)/Diagnosis",0
-Opportunity Loss:,4
+Opportunity Loss:,8
 Economic Loss:,4
 Alienation:,0
 Increased Labor:,0
-Service or Benefit Loss:,4
+Service or Benefit Loss:,9
 Loss of Agency or Control:,2
 Technology-Facilitated Violence: ,1
-Diminished Health and Well-Being:,5
+Diminished Health and Well-Being:,10
 Privacy Violation:,0
 ,0
 "Questionnaire 7 (Patient group, Evaluation)/Diagnosis",0
 Stereotyping,1
-Demeaning,4
+Demeaning,9
 Erasing.,2
 Denying self-identity,1
 Reifying categories,1
-Alienation,4
-None,3
+Alienation,9
+None,
 ,0
 "Questionnaire 8 (Developer, Evaluation)/Hiring",0
 Opportunity Loss:,5
@@ -398,23 +398,23 @@ Diminished Health and Well-Being:,13
 Privacy Violation:,2
 ,0
 "Questionnaire 15 (Company, Measurement)/Hiring",0
-Opportunity Loss:,2
+Opportunity Loss:,5
 Economic Loss:,2
 Alienation:,2
 Increased Labor:,1
-Service or Benefit Loss:,3
+Service or Benefit Loss:,7
 Loss of Agency or Control:,0
 Technology-Facilitated Violence: ,1
-Diminished Health and Well-Being:,2
+Diminished Health and Well-Being:,5
 Privacy Violation:,0
 ,0
 "Questionnaire 15 (Healthcare Insitution, Deployment)/Diagnosis",0
 Opportunity Loss:,0
-Economic Loss:,2
+Economic Loss:,5
 Alienation:,2
-Increased Labor:,2
+Increased Labor:,6
 Service or Benefit Loss:,1
-Loss of Agency or Control:,1
+Loss of Agency or Control:,6
 Technology-Facilitated Violence: ,0
 Diminished Health and Well-Being:,5
 Privacy Violation:,1

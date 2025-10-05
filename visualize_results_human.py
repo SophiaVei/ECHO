@@ -8,11 +8,13 @@ Outputs (figures/):
   03_heatmap_harms_by_bias_type__<stakeholder>.png   (for top-K or requested stakeholder)
   04_top_harms_by_stakeholder_small_multiples.png
   05_domain_splits__<stakeholder>.png                (for top-K or requested stakeholder)
-  06_responses_by_questionnaire.png
+  06_respondents_by_questionnaire.png                (<- people, assuming single-choice per block)
   07_responses_by_stakeholder.png
   08_responses_by_bias_type.png
   09_responses_by_domain.png
   10_heatmap_stakeholder_by_harm.png
+  11_stacked_shares_by_domain.png
+  12_heatmap_domain_by_harm.png
 
 CLI examples:
   python visualize_results_human.py
@@ -97,11 +99,11 @@ def load_clean(path: Path) -> pd.DataFrame:
 def apply_filters(df: pd.DataFrame, domain: str | None, bias_type: str | None, stakeholder: str | None) -> pd.DataFrame:
     out = df.copy()
     if domain:
-        out = out[out["domain"].str.lower() == domain.lower()]
+        out = out[out["domain"].str.lower() == domain.lower()].copy()
     if bias_type:
-        out = out[out["bias_type"].str.lower() == bias_type.lower()]
+        out = out[out["bias_type"].str.lower() == bias_type.lower()].copy()
     if stakeholder:
-        out = out[out["stakeholder_raw"].str.lower() == stakeholder.lower()]
+        out = out[out["stakeholder_raw"].str.lower() == stakeholder.lower()].copy()
     return out
 
 def ensure_figdir():
@@ -143,7 +145,6 @@ def plot_stacked_shares_by_domain(df: pd.DataFrame, title_suffix: str = ""):
     ax.set_title(ttl); ax.legend(ncol=2, bbox_to_anchor=(1.02, 1), loc="upper left"); ax.grid(axis="x")
     fig.tight_layout(); fig.savefig(FIG_DIR / "11_stacked_shares_by_domain.png", bbox_inches="tight"); plt.close(fig)
 
-
 def plot_heatmap_domain_by_harm(df: pd.DataFrame, top_n_domains: int = None, top_m_harms: int = 10, title_suffix: str = ""):
     """Domain (rows) × Harm (cols) weighted-share heatmap; optionally trim to top-N/M for readability."""
     if df.empty: return
@@ -156,7 +157,7 @@ def plot_heatmap_domain_by_harm(df: pd.DataFrame, top_n_domains: int = None, top
     if top_n_domains is not None:
         dom_tot = dom_tot.head(top_n_domains)
     keep_dom = set(dom_tot["domain"])
-    d = d[d["domain"].isin(keep_dom)]
+    d = d[d["domain"].isin(keep_dom)].copy()
 
     mat = (d.groupby(["domain","harm"], as_index=False)
              .agg(weighted_share=("weighted_share","sum"), total=("total_votes","sum")))
@@ -165,7 +166,7 @@ def plot_heatmap_domain_by_harm(df: pd.DataFrame, top_n_domains: int = None, top
     # take top harms by overall weighted share
     top_h = (mat.groupby("harm", as_index=False)["weighted_share"].sum()
                .sort_values("weighted_share", ascending=False).head(top_m_harms))["harm"].tolist()
-    mat = mat[mat["harm"].isin(top_h)]
+    mat = mat[mat["harm"].isin(top_h)].copy()
 
     rows = dom_tot["domain"].tolist()
     cols = sorted(top_h)
@@ -189,6 +190,19 @@ def plot_heatmap_domain_by_harm(df: pd.DataFrame, top_n_domains: int = None, top
     ax.set_title(ttl); fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="Share")
     fig.tight_layout(); fig.savefig(FIG_DIR / "12_heatmap_domain_by_harm.png", bbox_inches="tight"); plt.close(fig)
 
+def plot_respondents_by_questionnaire(df: pd.DataFrame):
+    """
+    Assumes single-choice per block: total_votes == # respondents in that block.
+    Sums across blocks (stakeholder_raw × bias_type × domain) inside each questionnaire_id.
+    """
+    blocks = df.groupby(BLOCK_KEYS, as_index=False)["total_votes"].first()
+    q = (blocks.groupby("questionnaire_id", as_index=False)["total_votes"]
+               .sum().rename(columns={"total_votes":"n_respondents"}))
+    q = q.sort_values("questionnaire_id")
+    fig, ax = plt.subplots(figsize=(10, 4))
+    ax.bar(q["questionnaire_id"].astype(str), q["n_respondents"], color=color_cycle(len(q)))
+    ax.set_xlabel("questionnaire_id"); ax.set_ylabel("# respondents"); ax.set_title("Respondents by Questionnaire")
+    ax.grid(axis="y"); fig.tight_layout(); fig.savefig(FIG_DIR / "06_respondents_by_questionnaire.png", bbox_inches="tight"); plt.close(fig)
 
 def plot_overall_harm_shares(df: pd.DataFrame, title_suffix: str = ""):
     if df.empty: return
@@ -241,7 +255,7 @@ def plot_stacked_shares_by_stakeholder(df: pd.DataFrame, top_n_stakeholders: int
     fig.tight_layout(); fig.savefig(FIG_DIR / "02_stacked_shares_by_stakeholder.png", bbox_inches="tight"); plt.close(fig)
 
 def plot_heatmap_harms_by_bias_type(df: pd.DataFrame, stakeholder: str, title_suffix: str = ""):
-    dff = df[df["stakeholder_raw"].str.lower() == stakeholder.lower()]
+    dff = df[df["stakeholder_raw"].str.lower() == stakeholder.lower()].copy()
     if dff.empty: return
     dff["weighted_share"] = dff["vote_share"] * dff["total_votes"]
     mat = (dff.groupby(["bias_type","harm"], as_index=False)
@@ -258,7 +272,7 @@ def plot_heatmap_harms_by_bias_type(df: pd.DataFrame, stakeholder: str, title_su
 
     fig, ax = plt.subplots(figsize=(max(8, 0.45*len(cols)), max(4, 0.5*len(rows))))
     cmap = cmap_white_to(HEAT_COLOR)
-    vmax = max(1e-6, float(grid.max()))  # keep 0..max scale; avoids flat color if all zeros
+    vmax = max(1e-6, float(grid.max()))  # keep 0..max scale
     im = ax.imshow(grid, aspect="auto", cmap=cmap, vmin=0, vmax=vmax, interpolation="nearest")
     ax.set_yticks(range(len(rows))); ax.set_yticklabels(rows)
     ax.set_xticks(range(len(cols))); ax.set_xticklabels(wrap_labels(cols, 16), rotation=45, ha="right")
@@ -294,12 +308,15 @@ def plot_top_harms_small_multiples(df: pd.DataFrame, title_suffix: str = "", top
         for i, v in enumerate(sub["share"].values):
             ax.text(v + 0.005, i, f"{v:.0%}", va="center", ha="left", fontsize=9, color=FG_COLOR)
 
-    for j in range(idx+1, rows*cols): axes[j // cols, j % cols].axis("off")
+    # turn off any empty panels
+    for j in range(idx+1, rows*cols):
+        axes[j // cols, j % cols].axis("off")
+
     fig.suptitle("Top Harms by Stakeholder (Weighted Shares)" + (f" — {title_suffix}" if title_suffix else ""), y=0.98)
     fig.tight_layout(); fig.savefig(FIG_DIR / "04_top_harms_by_stakeholder_small_multiples.png", bbox_inches="tight"); plt.close(fig)
 
 def plot_domain_splits_for_stakeholder(df: pd.DataFrame, stakeholder: str, title_suffix: str = ""):
-    dff = df[df["stakeholder_raw"].str.lower() == stakeholder.lower()]
+    dff = df[df["stakeholder_raw"].str.lower() == stakeholder.lower()].copy()
     if dff.empty: return
     dff["weighted_share"] = dff["vote_share"] * dff["total_votes"]
     mat = (dff.groupby(["domain","harm"], as_index=False)
@@ -324,15 +341,6 @@ def plot_domain_splits_for_stakeholder(df: pd.DataFrame, stakeholder: str, title
     fig.tight_layout(); fig.savefig(FIG_DIR / f"05_domain_splits__{stakeholder.replace(' ','_')}.png", bbox_inches="tight"); plt.close(fig)
 
 # ------- Participation / coverage plots (how many answered etc.) -------
-
-def plot_responses_by_questionnaire(df: pd.DataFrame):
-    blocks = df.groupby(BLOCK_KEYS, as_index=False)["total_votes"].first()  # one row per block
-    q = blocks.groupby("questionnaire_id", as_index=False)["total_votes"].sum()
-    q = q.sort_values("questionnaire_id")
-    fig, ax = plt.subplots(figsize=(10, 4))
-    ax.bar(q["questionnaire_id"].astype(str), q["total_votes"], color=color_cycle(len(q)))
-    ax.set_xlabel("questionnaire_id"); ax.set_ylabel("total votes"); ax.set_title("Responses by Questionnaire")
-    ax.grid(axis="y"); fig.tight_layout(); fig.savefig(FIG_DIR / "06_responses_by_questionnaire.png", bbox_inches="tight"); plt.close(fig)
 
 def plot_responses_by_stakeholder(df: pd.DataFrame):
     blocks = df.groupby(BLOCK_KEYS, as_index=False)["total_votes"].first()
@@ -377,7 +385,7 @@ def plot_heatmap_stakeholder_by_harm(df: pd.DataFrame, top_n_stakeholders: int =
     # take top harms by overall share
     top_h = (mat.groupby("harm", as_index=False)["weighted_share"].sum()
                 .sort_values("weighted_share", ascending=False).head(top_m_harms))["harm"].tolist()
-    mat = mat[mat["harm"].isin(top_h)]
+    mat = mat[mat["harm"].isin(top_h)].copy()
 
     rows = st_tot["stakeholder_raw"].tolist()
     cols = sorted(top_h)
@@ -415,7 +423,6 @@ def main():
     parser.add_argument("--top_m_harms", type=int, default=10, help="Columns in stakeholder×harm heatmap (default: 10)")
     parser.add_argument("--top_n_domains", type=int, default=None,
                         help="Top N domains to show in domain heatmap (default: all)")
-    # reuse --top_m_harms for both stakeholder and domain heatmaps
 
     args = parser.parse_args()
 
@@ -434,15 +441,19 @@ def main():
     plot_stacked_shares_by_stakeholder(df, top_n_stakeholders=args.top_n_stakeholders, title_suffix=suffix)
     plot_top_harms_small_multiples(df, title_suffix=suffix, top_k_harms=6)
 
-    # NEW domain-focused distributions
+    # Domain-focused distributions
     plot_stacked_shares_by_domain(df, title_suffix=suffix)
     plot_heatmap_domain_by_harm(df, top_n_domains=args.top_n_domains, top_m_harms=args.top_m_harms, title_suffix=suffix)
-    # Participation/coverage
-    plot_responses_by_questionnaire(df)
+
+    # Participation / coverage
+    plot_respondents_by_questionnaire(df)  # <-- people per questionnaire (single-choice assumption)
     plot_responses_by_stakeholder(df)
     plot_responses_by_bias_type(df)
     plot_responses_by_domain(df)
-    plot_heatmap_stakeholder_by_harm(df, top_n_stakeholders=args.top_n_stakeholders, top_m_harms=args.top_m_harms, title_suffix=suffix)
+
+    # Overview heatmap
+    plot_heatmap_stakeholder_by_harm(df, top_n_stakeholders=args.top_n_stakeholders,
+                                     top_m_harms=args.top_m_harms, title_suffix=suffix)
 
     # Focused heatmaps/domain splits
     targets = []
