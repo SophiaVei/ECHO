@@ -1,0 +1,8 @@
+stakeholder,is_group_level,blocks,top_hit_rate,exact_acc_rate,exact_defined_frac,mean_point_biserial_r
+applicant,False,5,1.0,1.0,1.0,0.6422656109914683
+applicant,True,5,0.8,1.0,0.6,0.5832525469837929
+company,False,5,1.0,1.0,0.8,0.7396920499528757
+developer,False,10,0.5,0.5555555555555556,0.9,0.4412323935460451
+healthcare institution,False,5,0.2,0.0,0.8,0.2001404362219179
+patient,False,5,1.0,1.0,1.0,0.6551464480766793
+patient,True,5,0.8,0.75,0.8,0.6249958281314769

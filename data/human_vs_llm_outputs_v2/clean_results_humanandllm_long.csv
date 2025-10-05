@@ -1,0 +1,341 @@
+questionnaire_id,stakeholder_raw,stakeholder,is_group_level,bias_type,domain,harm_family,harm,votes,llm_selected,total_votes,vote_share
+1,Applicant Group,applicant,True,algorithmic,hiring,group,alienation,2,0,28,0.07142857142857142
+1,Applicant Group,applicant,True,algorithmic,hiring,group,demeaning,8,1,28,0.2857142857142857
+1,Applicant Group,applicant,True,algorithmic,hiring,group,denying self-identity,4,0,28,0.14285714285714285
+1,Applicant Group,applicant,True,algorithmic,hiring,group,erasure,3,0,28,0.10714285714285714
+1,Applicant Group,applicant,True,algorithmic,hiring,group,none,5,0,28,0.17857142857142858
+1,Applicant Group,applicant,True,algorithmic,hiring,group,reifying categories,1,0,28,0.03571428571428571
+1,Applicant Group,applicant,True,algorithmic,hiring,group,stereotyping,5,0,28,0.17857142857142858
+1,Applicant,applicant,False,algorithmic,hiring,individual,alienation,1,0,33,0.030303030303030304
+1,Applicant,applicant,False,algorithmic,hiring,individual,diminished health and well-being,1,0,33,0.030303030303030304
+1,Applicant,applicant,False,algorithmic,hiring,individual,economic loss,7,0,33,0.21212121212121213
+1,Applicant,applicant,False,algorithmic,hiring,individual,increased labor,6,0,33,0.18181818181818182
+1,Applicant,applicant,False,algorithmic,hiring,individual,loss of agency or control,3,0,33,0.09090909090909091
+1,Applicant,applicant,False,algorithmic,hiring,individual,opportunity loss,7,0,33,0.21212121212121213
+1,Applicant,applicant,False,algorithmic,hiring,individual,privacy violation,0,0,33,0.0
+1,Applicant,applicant,False,algorithmic,hiring,individual,service or benefit loss,8,1,33,0.24242424242424243
+1,Applicant,applicant,False,algorithmic,hiring,individual,technology-facilitated violence,0,0,33,0.0
+1,Applicant Group,applicant,True,representation,hiring,group,alienation,2,0,31,0.06451612903225806
+1,Applicant Group,applicant,True,representation,hiring,group,demeaning,6,0,31,0.1935483870967742
+1,Applicant Group,applicant,True,representation,hiring,group,denying self-identity,4,0,31,0.12903225806451613
+1,Applicant Group,applicant,True,representation,hiring,group,erasure,6,0,31,0.1935483870967742
+1,Applicant Group,applicant,True,representation,hiring,group,none,2,0,31,0.06451612903225806
+1,Applicant Group,applicant,True,representation,hiring,group,reifying categories,3,0,31,0.0967741935483871
+1,Applicant Group,applicant,True,representation,hiring,group,stereotyping,8,1,31,0.25806451612903225
+1,Applicant,applicant,False,representation,hiring,individual,alienation,2,0,35,0.05714285714285714
+1,Applicant,applicant,False,representation,hiring,individual,diminished health and well-being,3,0,35,0.08571428571428572
+1,Applicant,applicant,False,representation,hiring,individual,economic loss,4,0,35,0.11428571428571428
+1,Applicant,applicant,False,representation,hiring,individual,increased labor,3,0,35,0.08571428571428572
+1,Applicant,applicant,False,representation,hiring,individual,loss of agency or control,7,0,35,0.2
+1,Applicant,applicant,False,representation,hiring,individual,opportunity loss,10,1,35,0.2857142857142857
+1,Applicant,applicant,False,representation,hiring,individual,privacy violation,0,0,35,0.0
+1,Applicant,applicant,False,representation,hiring,individual,service or benefit loss,6,0,35,0.17142857142857143
+1,Applicant,applicant,False,representation,hiring,individual,technology-facilitated violence,0,0,35,0.0
+2,Applicant Group,applicant,True,deployment,hiring,group,alienation,3,0,28,0.10714285714285714
+2,Applicant Group,applicant,True,deployment,hiring,group,demeaning,6,0,28,0.21428571428571427
+2,Applicant Group,applicant,True,deployment,hiring,group,denying self-identity,1,0,28,0.03571428571428571
+2,Applicant Group,applicant,True,deployment,hiring,group,erasure,5,1,28,0.17857142857142858
+2,Applicant Group,applicant,True,deployment,hiring,group,none,5,0,28,0.17857142857142858
+2,Applicant Group,applicant,True,deployment,hiring,group,reifying categories,2,0,28,0.07142857142857142
+2,Applicant Group,applicant,True,deployment,hiring,group,stereotyping,6,0,28,0.21428571428571427
+2,Applicant,applicant,False,deployment,hiring,individual,alienation,5,0,32,0.15625
+2,Applicant,applicant,False,deployment,hiring,individual,diminished health and well-being,6,0,32,0.1875
+2,Applicant,applicant,False,deployment,hiring,individual,economic loss,2,0,32,0.0625
+2,Applicant,applicant,False,deployment,hiring,individual,increased labor,1,0,32,0.03125
+2,Applicant,applicant,False,deployment,hiring,individual,loss of agency or control,3,0,32,0.09375
+2,Applicant,applicant,False,deployment,hiring,individual,opportunity loss,7,1,32,0.21875
+2,Applicant,applicant,False,deployment,hiring,individual,privacy violation,1,0,32,0.03125
+2,Applicant,applicant,False,deployment,hiring,individual,service or benefit loss,6,0,32,0.1875
+2,Applicant,applicant,False,deployment,hiring,individual,technology-facilitated violence,1,0,32,0.03125
+2,Applicant Group,applicant,True,measurement,hiring,group,alienation,5,0,30,0.16666666666666666
+2,Applicant Group,applicant,True,measurement,hiring,group,demeaning,8,1,30,0.26666666666666666
+2,Applicant Group,applicant,True,measurement,hiring,group,denying self-identity,5,0,30,0.16666666666666666
+2,Applicant Group,applicant,True,measurement,hiring,group,erasure,2,0,30,0.06666666666666667
+2,Applicant Group,applicant,True,measurement,hiring,group,none,4,0,30,0.13333333333333333
+2,Applicant Group,applicant,True,measurement,hiring,group,reifying categories,1,0,30,0.03333333333333333
+2,Applicant Group,applicant,True,measurement,hiring,group,stereotyping,5,0,30,0.16666666666666666
+2,Applicant,applicant,False,measurement,hiring,individual,alienation,2,0,33,0.06060606060606061
+2,Applicant,applicant,False,measurement,hiring,individual,diminished health and well-being,8,0,33,0.24242424242424243
+2,Applicant,applicant,False,measurement,hiring,individual,economic loss,2,0,33,0.06060606060606061
+2,Applicant,applicant,False,measurement,hiring,individual,increased labor,5,0,33,0.15151515151515152
+2,Applicant,applicant,False,measurement,hiring,individual,loss of agency or control,2,0,33,0.06060606060606061
+2,Applicant,applicant,False,measurement,hiring,individual,opportunity loss,12,1,33,0.36363636363636365
+2,Applicant,applicant,False,measurement,hiring,individual,privacy violation,1,0,33,0.030303030303030304
+2,Applicant,applicant,False,measurement,hiring,individual,service or benefit loss,1,0,33,0.030303030303030304
+2,Applicant,applicant,False,measurement,hiring,individual,technology-facilitated violence,0,0,33,0.0
+3,Developer,developer,False,algorithmic,hiring,individual,alienation,2,0,33,0.06060606060606061
+3,Developer,developer,False,algorithmic,hiring,individual,diminished health and well-being,4,0,33,0.12121212121212122
+3,Developer,developer,False,algorithmic,hiring,individual,economic loss,2,0,33,0.06060606060606061
+3,Developer,developer,False,algorithmic,hiring,individual,increased labor,5,1,33,0.15151515151515152
+3,Developer,developer,False,algorithmic,hiring,individual,loss of agency or control,6,0,33,0.18181818181818182
+3,Developer,developer,False,algorithmic,hiring,individual,opportunity loss,8,0,33,0.24242424242424243
+3,Developer,developer,False,algorithmic,hiring,individual,privacy violation,0,0,33,0.0
+3,Developer,developer,False,algorithmic,hiring,individual,service or benefit loss,6,0,33,0.18181818181818182
+3,Developer,developer,False,algorithmic,hiring,individual,technology-facilitated violence,0,0,33,0.0
+3,Developer,developer,False,representation,diagnosis,individual,alienation,4,0,32,0.125
+3,Developer,developer,False,representation,diagnosis,individual,diminished health and well-being,11,1,32,0.34375
+3,Developer,developer,False,representation,diagnosis,individual,economic loss,2,0,32,0.0625
+3,Developer,developer,False,representation,diagnosis,individual,increased labor,5,0,32,0.15625
+3,Developer,developer,False,representation,diagnosis,individual,loss of agency or control,1,0,32,0.03125
+3,Developer,developer,False,representation,diagnosis,individual,opportunity loss,2,0,32,0.0625
+3,Developer,developer,False,representation,diagnosis,individual,privacy violation,0,0,32,0.0
+3,Developer,developer,False,representation,diagnosis,individual,service or benefit loss,5,0,32,0.15625
+3,Developer,developer,False,representation,diagnosis,individual,technology-facilitated violence,2,0,32,0.0625
+4,Developer,developer,False,deployment,hiring,individual,alienation,2,0,30,0.06666666666666667
+4,Developer,developer,False,deployment,hiring,individual,diminished health and well-being,2,0,30,0.06666666666666667
+4,Developer,developer,False,deployment,hiring,individual,economic loss,5,0,30,0.16666666666666666
+4,Developer,developer,False,deployment,hiring,individual,increased labor,6,0,30,0.2
+4,Developer,developer,False,deployment,hiring,individual,loss of agency or control,8,1,30,0.26666666666666666
+4,Developer,developer,False,deployment,hiring,individual,opportunity loss,5,0,30,0.16666666666666666
+4,Developer,developer,False,deployment,hiring,individual,privacy violation,0,0,30,0.0
+4,Developer,developer,False,deployment,hiring,individual,service or benefit loss,2,0,30,0.06666666666666667
+4,Developer,developer,False,deployment,hiring,individual,technology-facilitated violence,0,0,30,0.0
+4,Developer,developer,False,measurement,diagnosis,individual,alienation,1,0,29,0.034482758620689655
+4,Developer,developer,False,measurement,diagnosis,individual,diminished health and well-being,8,1,29,0.27586206896551724
+4,Developer,developer,False,measurement,diagnosis,individual,economic loss,1,0,29,0.034482758620689655
+4,Developer,developer,False,measurement,diagnosis,individual,increased labor,5,0,29,0.1724137931034483
+4,Developer,developer,False,measurement,diagnosis,individual,loss of agency or control,6,0,29,0.20689655172413793
+4,Developer,developer,False,measurement,diagnosis,individual,opportunity loss,2,0,29,0.06896551724137931
+4,Developer,developer,False,measurement,diagnosis,individual,privacy violation,3,0,29,0.10344827586206896
+4,Developer,developer,False,measurement,diagnosis,individual,service or benefit loss,2,0,29,0.06896551724137931
+4,Developer,developer,False,measurement,diagnosis,individual,technology-facilitated violence,1,0,29,0.034482758620689655
+5,Company,company,False,algorithmic,hiring,individual,alienation,1,0,28,0.03571428571428571
+5,Company,company,False,algorithmic,hiring,individual,diminished health and well-being,1,0,28,0.03571428571428571
+5,Company,company,False,algorithmic,hiring,individual,economic loss,3,0,28,0.10714285714285714
+5,Company,company,False,algorithmic,hiring,individual,increased labor,0,0,28,0.0
+5,Company,company,False,algorithmic,hiring,individual,loss of agency or control,3,0,28,0.10714285714285714
+5,Company,company,False,algorithmic,hiring,individual,opportunity loss,14,1,28,0.5
+5,Company,company,False,algorithmic,hiring,individual,privacy violation,0,0,28,0.0
+5,Company,company,False,algorithmic,hiring,individual,service or benefit loss,6,0,28,0.21428571428571427
+5,Company,company,False,algorithmic,hiring,individual,technology-facilitated violence,0,0,28,0.0
+5,Healthcare Institution,healthcare institution,False,representation,diagnosis,individual,alienation,1,0,30,0.03333333333333333
+5,Healthcare Institution,healthcare institution,False,representation,diagnosis,individual,diminished health and well-being,8,0,30,0.26666666666666666
+5,Healthcare Institution,healthcare institution,False,representation,diagnosis,individual,economic loss,2,0,30,0.06666666666666667
+5,Healthcare Institution,healthcare institution,False,representation,diagnosis,individual,increased labor,3,1,30,0.1
+5,Healthcare Institution,healthcare institution,False,representation,diagnosis,individual,loss of agency or control,7,0,30,0.23333333333333334
+5,Healthcare Institution,healthcare institution,False,representation,diagnosis,individual,opportunity loss,4,0,30,0.13333333333333333
+5,Healthcare Institution,healthcare institution,False,representation,diagnosis,individual,privacy violation,1,0,30,0.03333333333333333
+5,Healthcare Institution,healthcare institution,False,representation,diagnosis,individual,service or benefit loss,4,0,30,0.13333333333333333
+5,Healthcare Institution,healthcare institution,False,representation,diagnosis,individual,technology-facilitated violence,0,0,30,0.0
+6,Company,company,False,deployment,hiring,individual,alienation,4,0,32,0.125
+6,Company,company,False,deployment,hiring,individual,diminished health and well-being,4,0,32,0.125
+6,Company,company,False,deployment,hiring,individual,economic loss,3,0,32,0.09375
+6,Company,company,False,deployment,hiring,individual,increased labor,2,0,32,0.0625
+6,Company,company,False,deployment,hiring,individual,loss of agency or control,1,0,32,0.03125
+6,Company,company,False,deployment,hiring,individual,opportunity loss,8,1,32,0.25
+6,Company,company,False,deployment,hiring,individual,privacy violation,1,0,32,0.03125
+6,Company,company,False,deployment,hiring,individual,service or benefit loss,8,0,32,0.25
+6,Company,company,False,deployment,hiring,individual,technology-facilitated violence,1,0,32,0.03125
+6,Healthcare Institution,healthcare institution,False,measurement,diagnosis,individual,alienation,2,0,32,0.0625
+6,Healthcare Institution,healthcare institution,False,measurement,diagnosis,individual,diminished health and well-being,9,0,32,0.28125
+6,Healthcare Institution,healthcare institution,False,measurement,diagnosis,individual,economic loss,1,0,32,0.03125
+6,Healthcare Institution,healthcare institution,False,measurement,diagnosis,individual,increased labor,6,1,32,0.1875
+6,Healthcare Institution,healthcare institution,False,measurement,diagnosis,individual,loss of agency or control,5,0,32,0.15625
+6,Healthcare Institution,healthcare institution,False,measurement,diagnosis,individual,opportunity loss,1,0,32,0.03125
+6,Healthcare Institution,healthcare institution,False,measurement,diagnosis,individual,privacy violation,1,0,32,0.03125
+6,Healthcare Institution,healthcare institution,False,measurement,diagnosis,individual,service or benefit loss,7,0,32,0.21875
+6,Healthcare Institution,healthcare institution,False,measurement,diagnosis,individual,technology-facilitated violence,0,0,32,0.0
+7,Applicant group,applicant,True,evaluation,hiring,group,alienation,8,0,33,0.24242424242424243
+7,Applicant group,applicant,True,evaluation,hiring,group,demeaning,10,0,33,0.30303030303030304
+7,Applicant group,applicant,True,evaluation,hiring,group,denying self-identity,2,0,33,0.06060606060606061
+7,Applicant group,applicant,True,evaluation,hiring,group,erasure,1,0,33,0.030303030303030304
+7,Applicant group,applicant,True,evaluation,hiring,group,none,1,0,33,0.030303030303030304
+7,Applicant group,applicant,True,evaluation,hiring,group,reifying categories,10,1,33,0.30303030303030304
+7,Applicant group,applicant,True,evaluation,hiring,group,stereotyping,1,0,33,0.030303030303030304
+7,Applicant,applicant,False,evaluation,hiring,individual,alienation,1,0,31,0.03225806451612903
+7,Applicant,applicant,False,evaluation,hiring,individual,diminished health and well-being,4,0,31,0.12903225806451613
+7,Applicant,applicant,False,evaluation,hiring,individual,economic loss,10,0,31,0.3225806451612903
+7,Applicant,applicant,False,evaluation,hiring,individual,increased labor,2,0,31,0.06451612903225806
+7,Applicant,applicant,False,evaluation,hiring,individual,loss of agency or control,2,0,31,0.06451612903225806
+7,Applicant,applicant,False,evaluation,hiring,individual,opportunity loss,12,1,31,0.3870967741935484
+7,Applicant,applicant,False,evaluation,hiring,individual,privacy violation,0,0,31,0.0
+7,Applicant,applicant,False,evaluation,hiring,individual,service or benefit loss,0,0,31,0.0
+7,Applicant,applicant,False,evaluation,hiring,individual,technology-facilitated violence,0,0,31,0.0
+7,Patient group,patient,True,evaluation,diagnosis,group,alienation,9,0,23,0.391304347826087
+7,Patient group,patient,True,evaluation,diagnosis,group,demeaning,9,1,23,0.391304347826087
+7,Patient group,patient,True,evaluation,diagnosis,group,denying self-identity,1,0,23,0.043478260869565216
+7,Patient group,patient,True,evaluation,diagnosis,group,erasure,2,0,23,0.08695652173913043
+7,Patient group,patient,True,evaluation,diagnosis,group,none,0,0,23,0.0
+7,Patient group,patient,True,evaluation,diagnosis,group,reifying categories,1,0,23,0.043478260869565216
+7,Patient group,patient,True,evaluation,diagnosis,group,stereotyping,1,0,23,0.043478260869565216
+7,Patient,patient,False,evaluation,diagnosis,individual,alienation,0,0,34,0.0
+7,Patient,patient,False,evaluation,diagnosis,individual,diminished health and well-being,10,1,34,0.29411764705882354
+7,Patient,patient,False,evaluation,diagnosis,individual,economic loss,4,0,34,0.11764705882352941
+7,Patient,patient,False,evaluation,diagnosis,individual,increased labor,0,0,34,0.0
+7,Patient,patient,False,evaluation,diagnosis,individual,loss of agency or control,2,0,34,0.058823529411764705
+7,Patient,patient,False,evaluation,diagnosis,individual,opportunity loss,8,0,34,0.23529411764705882
+7,Patient,patient,False,evaluation,diagnosis,individual,privacy violation,0,0,34,0.0
+7,Patient,patient,False,evaluation,diagnosis,individual,service or benefit loss,9,0,34,0.2647058823529412
+7,Patient,patient,False,evaluation,diagnosis,individual,technology-facilitated violence,1,0,34,0.029411764705882353
+8,Developer,developer,False,evaluation,diagnosis,individual,alienation,4,0,31,0.12903225806451613
+8,Developer,developer,False,evaluation,diagnosis,individual,diminished health and well-being,7,0,31,0.22580645161290322
+8,Developer,developer,False,evaluation,diagnosis,individual,economic loss,3,0,31,0.0967741935483871
+8,Developer,developer,False,evaluation,diagnosis,individual,increased labor,8,1,31,0.25806451612903225
+8,Developer,developer,False,evaluation,diagnosis,individual,loss of agency or control,0,0,31,0.0
+8,Developer,developer,False,evaluation,diagnosis,individual,opportunity loss,2,0,31,0.06451612903225806
+8,Developer,developer,False,evaluation,diagnosis,individual,privacy violation,1,0,31,0.03225806451612903
+8,Developer,developer,False,evaluation,diagnosis,individual,service or benefit loss,6,0,31,0.1935483870967742
+8,Developer,developer,False,evaluation,diagnosis,individual,technology-facilitated violence,0,0,31,0.0
+8,Developer,developer,False,evaluation,hiring,individual,alienation,3,0,32,0.09375
+8,Developer,developer,False,evaluation,hiring,individual,diminished health and well-being,5,0,32,0.15625
+8,Developer,developer,False,evaluation,hiring,individual,economic loss,2,0,32,0.0625
+8,Developer,developer,False,evaluation,hiring,individual,increased labor,7,1,32,0.21875
+8,Developer,developer,False,evaluation,hiring,individual,loss of agency or control,6,0,32,0.1875
+8,Developer,developer,False,evaluation,hiring,individual,opportunity loss,5,0,32,0.15625
+8,Developer,developer,False,evaluation,hiring,individual,privacy violation,2,0,32,0.0625
+8,Developer,developer,False,evaluation,hiring,individual,service or benefit loss,2,0,32,0.0625
+8,Developer,developer,False,evaluation,hiring,individual,technology-facilitated violence,0,0,32,0.0
+9,Company,company,False,evaluation,hiring,individual,alienation,0,0,32,0.0
+9,Company,company,False,evaluation,hiring,individual,diminished health and well-being,3,0,32,0.09375
+9,Company,company,False,evaluation,hiring,individual,economic loss,4,0,32,0.125
+9,Company,company,False,evaluation,hiring,individual,increased labor,5,0,32,0.15625
+9,Company,company,False,evaluation,hiring,individual,loss of agency or control,3,0,32,0.09375
+9,Company,company,False,evaluation,hiring,individual,opportunity loss,10,1,32,0.3125
+9,Company,company,False,evaluation,hiring,individual,privacy violation,0,0,32,0.0
+9,Company,company,False,evaluation,hiring,individual,service or benefit loss,7,0,32,0.21875
+9,Company,company,False,evaluation,hiring,individual,technology-facilitated violence,0,0,32,0.0
+9,Healthcare Institution,healthcare institution,False,evaluation,diagnosis,individual,alienation,2,0,35,0.05714285714285714
+9,Healthcare Institution,healthcare institution,False,evaluation,diagnosis,individual,diminished health and well-being,11,0,35,0.3142857142857143
+9,Healthcare Institution,healthcare institution,False,evaluation,diagnosis,individual,economic loss,2,0,35,0.05714285714285714
+9,Healthcare Institution,healthcare institution,False,evaluation,diagnosis,individual,increased labor,6,1,35,0.17142857142857143
+9,Healthcare Institution,healthcare institution,False,evaluation,diagnosis,individual,loss of agency or control,4,0,35,0.11428571428571428
+9,Healthcare Institution,healthcare institution,False,evaluation,diagnosis,individual,opportunity loss,2,0,35,0.05714285714285714
+9,Healthcare Institution,healthcare institution,False,evaluation,diagnosis,individual,privacy violation,0,0,35,0.0
+9,Healthcare Institution,healthcare institution,False,evaluation,diagnosis,individual,service or benefit loss,8,0,35,0.22857142857142856
+9,Healthcare Institution,healthcare institution,False,evaluation,diagnosis,individual,technology-facilitated violence,0,0,35,0.0
+10,Patient group,patient,True,algorithmic,diagnosis,group,alienation,3,0,25,0.12
+10,Patient group,patient,True,algorithmic,diagnosis,group,demeaning,2,0,25,0.08
+10,Patient group,patient,True,algorithmic,diagnosis,group,denying self-identity,2,0,25,0.08
+10,Patient group,patient,True,algorithmic,diagnosis,group,erasure,2,0,25,0.08
+10,Patient group,patient,True,algorithmic,diagnosis,group,none,2,0,25,0.08
+10,Patient group,patient,True,algorithmic,diagnosis,group,reifying categories,5,0,25,0.2
+10,Patient group,patient,True,algorithmic,diagnosis,group,stereotyping,9,1,25,0.36
+10,Patient,patient,False,algorithmic,diagnosis,individual,alienation,6,0,27,0.2222222222222222
+10,Patient,patient,False,algorithmic,diagnosis,individual,diminished health and well-being,11,1,27,0.4074074074074074
+10,Patient,patient,False,algorithmic,diagnosis,individual,economic loss,0,0,27,0.0
+10,Patient,patient,False,algorithmic,diagnosis,individual,increased labor,0,0,27,0.0
+10,Patient,patient,False,algorithmic,diagnosis,individual,loss of agency or control,2,0,27,0.07407407407407407
+10,Patient,patient,False,algorithmic,diagnosis,individual,opportunity loss,5,0,27,0.18518518518518517
+10,Patient,patient,False,algorithmic,diagnosis,individual,privacy violation,0,0,27,0.0
+10,Patient,patient,False,algorithmic,diagnosis,individual,service or benefit loss,2,0,27,0.07407407407407407
+10,Patient,patient,False,algorithmic,diagnosis,individual,technology-facilitated violence,1,0,27,0.037037037037037035
+10,Patient group,patient,True,representation,diagnosis,group,alienation,2,0,25,0.08
+10,Patient group,patient,True,representation,diagnosis,group,demeaning,4,1,25,0.16
+10,Patient group,patient,True,representation,diagnosis,group,denying self-identity,6,0,25,0.24
+10,Patient group,patient,True,representation,diagnosis,group,erasure,1,0,25,0.04
+10,Patient group,patient,True,representation,diagnosis,group,none,1,0,25,0.04
+10,Patient group,patient,True,representation,diagnosis,group,reifying categories,1,0,25,0.04
+10,Patient group,patient,True,representation,diagnosis,group,stereotyping,10,0,25,0.4
+10,Patient,patient,False,representation,diagnosis,individual,alienation,0,0,28,0.0
+10,Patient,patient,False,representation,diagnosis,individual,diminished health and well-being,8,1,28,0.2857142857142857
+10,Patient,patient,False,representation,diagnosis,individual,economic loss,3,0,28,0.10714285714285714
+10,Patient,patient,False,representation,diagnosis,individual,increased labor,2,0,28,0.07142857142857142
+10,Patient,patient,False,representation,diagnosis,individual,loss of agency or control,2,0,28,0.07142857142857142
+10,Patient,patient,False,representation,diagnosis,individual,opportunity loss,7,0,28,0.25
+10,Patient,patient,False,representation,diagnosis,individual,privacy violation,1,0,28,0.03571428571428571
+10,Patient,patient,False,representation,diagnosis,individual,service or benefit loss,5,0,28,0.17857142857142858
+10,Patient,patient,False,representation,diagnosis,individual,technology-facilitated violence,0,0,28,0.0
+11,Patient group,patient,True,deployment,diagnosis,group,alienation,1,0,23,0.043478260869565216
+11,Patient group,patient,True,deployment,diagnosis,group,demeaning,3,0,23,0.13043478260869565
+11,Patient group,patient,True,deployment,diagnosis,group,denying self-identity,3,0,23,0.13043478260869565
+11,Patient group,patient,True,deployment,diagnosis,group,erasure,4,0,23,0.17391304347826086
+11,Patient group,patient,True,deployment,diagnosis,group,none,4,0,23,0.17391304347826086
+11,Patient group,patient,True,deployment,diagnosis,group,reifying categories,1,0,23,0.043478260869565216
+11,Patient group,patient,True,deployment,diagnosis,group,stereotyping,7,1,23,0.30434782608695654
+11,Patient,patient,False,deployment,diagnosis,individual,alienation,4,0,25,0.16
+11,Patient,patient,False,deployment,diagnosis,individual,diminished health and well-being,6,1,25,0.24
+11,Patient,patient,False,deployment,diagnosis,individual,economic loss,2,0,25,0.08
+11,Patient,patient,False,deployment,diagnosis,individual,increased labor,3,0,25,0.12
+11,Patient,patient,False,deployment,diagnosis,individual,loss of agency or control,3,0,25,0.12
+11,Patient,patient,False,deployment,diagnosis,individual,opportunity loss,5,0,25,0.2
+11,Patient,patient,False,deployment,diagnosis,individual,privacy violation,0,0,25,0.0
+11,Patient,patient,False,deployment,diagnosis,individual,service or benefit loss,1,0,25,0.04
+11,Patient,patient,False,deployment,diagnosis,individual,technology-facilitated violence,1,0,25,0.04
+11,Patient group,patient,True,measurement,diagnosis,group,alienation,1,0,28,0.03571428571428571
+11,Patient group,patient,True,measurement,diagnosis,group,demeaning,2,0,28,0.07142857142857142
+11,Patient group,patient,True,measurement,diagnosis,group,denying self-identity,9,0,28,0.32142857142857145
+11,Patient group,patient,True,measurement,diagnosis,group,erasure,3,0,28,0.10714285714285714
+11,Patient group,patient,True,measurement,diagnosis,group,none,0,0,28,0.0
+11,Patient group,patient,True,measurement,diagnosis,group,reifying categories,2,0,28,0.07142857142857142
+11,Patient group,patient,True,measurement,diagnosis,group,stereotyping,11,1,28,0.39285714285714285
+11,Patient,patient,False,measurement,diagnosis,individual,alienation,3,0,27,0.1111111111111111
+11,Patient,patient,False,measurement,diagnosis,individual,diminished health and well-being,7,1,27,0.25925925925925924
+11,Patient,patient,False,measurement,diagnosis,individual,economic loss,2,0,27,0.07407407407407407
+11,Patient,patient,False,measurement,diagnosis,individual,increased labor,0,0,27,0.0
+11,Patient,patient,False,measurement,diagnosis,individual,loss of agency or control,3,0,27,0.1111111111111111
+11,Patient,patient,False,measurement,diagnosis,individual,opportunity loss,6,0,27,0.2222222222222222
+11,Patient,patient,False,measurement,diagnosis,individual,privacy violation,1,0,27,0.037037037037037035
+11,Patient,patient,False,measurement,diagnosis,individual,service or benefit loss,3,0,27,0.1111111111111111
+11,Patient,patient,False,measurement,diagnosis,individual,technology-facilitated violence,2,0,27,0.07407407407407407
+12,Developer,developer,False,algorithmic,diagnosis,individual,alienation,4,0,31,0.12903225806451613
+12,Developer,developer,False,algorithmic,diagnosis,individual,diminished health and well-being,3,0,31,0.0967741935483871
+12,Developer,developer,False,algorithmic,diagnosis,individual,economic loss,0,0,31,0.0
+12,Developer,developer,False,algorithmic,diagnosis,individual,increased labor,4,1,31,0.12903225806451613
+12,Developer,developer,False,algorithmic,diagnosis,individual,loss of agency or control,7,0,31,0.22580645161290322
+12,Developer,developer,False,algorithmic,diagnosis,individual,opportunity loss,1,0,31,0.03225806451612903
+12,Developer,developer,False,algorithmic,diagnosis,individual,privacy violation,0,0,31,0.0
+12,Developer,developer,False,algorithmic,diagnosis,individual,service or benefit loss,9,0,31,0.2903225806451613
+12,Developer,developer,False,algorithmic,diagnosis,individual,technology-facilitated violence,3,0,31,0.0967741935483871
+12,Developer,developer,False,representation,hiring,individual,alienation,7,0,31,0.22580645161290322
+12,Developer,developer,False,representation,hiring,individual,diminished health and well-being,6,1,31,0.1935483870967742
+12,Developer,developer,False,representation,hiring,individual,economic loss,0,0,31,0.0
+12,Developer,developer,False,representation,hiring,individual,increased labor,3,0,31,0.0967741935483871
+12,Developer,developer,False,representation,hiring,individual,loss of agency or control,1,0,31,0.03225806451612903
+12,Developer,developer,False,representation,hiring,individual,opportunity loss,7,0,31,0.22580645161290322
+12,Developer,developer,False,representation,hiring,individual,privacy violation,0,0,31,0.0
+12,Developer,developer,False,representation,hiring,individual,service or benefit loss,5,0,31,0.16129032258064516
+12,Developer,developer,False,representation,hiring,individual,technology-facilitated violence,2,0,31,0.06451612903225806
+13,Developer,developer,False,deployment,diagnosis,individual,alienation,7,0,34,0.20588235294117646
+13,Developer,developer,False,deployment,diagnosis,individual,diminished health and well-being,6,1,34,0.17647058823529413
+13,Developer,developer,False,deployment,diagnosis,individual,economic loss,1,0,34,0.029411764705882353
+13,Developer,developer,False,deployment,diagnosis,individual,increased labor,6,0,34,0.17647058823529413
+13,Developer,developer,False,deployment,diagnosis,individual,loss of agency or control,6,0,34,0.17647058823529413
+13,Developer,developer,False,deployment,diagnosis,individual,opportunity loss,0,0,34,0.0
+13,Developer,developer,False,deployment,diagnosis,individual,privacy violation,2,0,34,0.058823529411764705
+13,Developer,developer,False,deployment,diagnosis,individual,service or benefit loss,4,0,34,0.11764705882352941
+13,Developer,developer,False,deployment,diagnosis,individual,technology-facilitated violence,2,0,34,0.058823529411764705
+13,Developer,developer,False,measurement,hiring,individual,alienation,5,0,34,0.14705882352941177
+13,Developer,developer,False,measurement,hiring,individual,diminished health and well-being,2,0,34,0.058823529411764705
+13,Developer,developer,False,measurement,hiring,individual,economic loss,6,0,34,0.17647058823529413
+13,Developer,developer,False,measurement,hiring,individual,increased labor,5,1,34,0.14705882352941177
+13,Developer,developer,False,measurement,hiring,individual,loss of agency or control,5,0,34,0.14705882352941177
+13,Developer,developer,False,measurement,hiring,individual,opportunity loss,7,0,34,0.20588235294117646
+13,Developer,developer,False,measurement,hiring,individual,privacy violation,2,0,34,0.058823529411764705
+13,Developer,developer,False,measurement,hiring,individual,service or benefit loss,2,0,34,0.058823529411764705
+13,Developer,developer,False,measurement,hiring,individual,technology-facilitated violence,0,0,34,0.0
+14,Company,company,False,representation,hiring,individual,alienation,4,0,36,0.1111111111111111
+14,Company,company,False,representation,hiring,individual,diminished health and well-being,4,0,36,0.1111111111111111
+14,Company,company,False,representation,hiring,individual,economic loss,2,0,36,0.05555555555555555
+14,Company,company,False,representation,hiring,individual,increased labor,6,0,36,0.16666666666666666
+14,Company,company,False,representation,hiring,individual,loss of agency or control,4,0,36,0.1111111111111111
+14,Company,company,False,representation,hiring,individual,opportunity loss,12,1,36,0.3333333333333333
+14,Company,company,False,representation,hiring,individual,privacy violation,0,0,36,0.0
+14,Company,company,False,representation,hiring,individual,service or benefit loss,4,0,36,0.1111111111111111
+14,Company,company,False,representation,hiring,individual,technology-facilitated violence,0,0,36,0.0
+14,Healthcare Institution,healthcare institution,False,algorithmic,diagnosis,individual,alienation,4,0,36,0.1111111111111111
+14,Healthcare Institution,healthcare institution,False,algorithmic,diagnosis,individual,diminished health and well-being,13,0,36,0.3611111111111111
+14,Healthcare Institution,healthcare institution,False,algorithmic,diagnosis,individual,economic loss,1,0,36,0.027777777777777776
+14,Healthcare Institution,healthcare institution,False,algorithmic,diagnosis,individual,increased labor,5,1,36,0.1388888888888889
+14,Healthcare Institution,healthcare institution,False,algorithmic,diagnosis,individual,loss of agency or control,5,0,36,0.1388888888888889
+14,Healthcare Institution,healthcare institution,False,algorithmic,diagnosis,individual,opportunity loss,3,0,36,0.08333333333333333
+14,Healthcare Institution,healthcare institution,False,algorithmic,diagnosis,individual,privacy violation,2,0,36,0.05555555555555555
+14,Healthcare Institution,healthcare institution,False,algorithmic,diagnosis,individual,service or benefit loss,3,0,36,0.08333333333333333
+14,Healthcare Institution,healthcare institution,False,algorithmic,diagnosis,individual,technology-facilitated violence,0,0,36,0.0
+15,Company,company,False,measurement,hiring,individual,alienation,2,0,23,0.08695652173913043
+15,Company,company,False,measurement,hiring,individual,diminished health and well-being,5,0,23,0.21739130434782608
+15,Company,company,False,measurement,hiring,individual,economic loss,2,0,23,0.08695652173913043
+15,Company,company,False,measurement,hiring,individual,increased labor,1,0,23,0.043478260869565216
+15,Company,company,False,measurement,hiring,individual,loss of agency or control,0,0,23,0.0
+15,Company,company,False,measurement,hiring,individual,opportunity loss,5,0,23,0.21739130434782608
+15,Company,company,False,measurement,hiring,individual,privacy violation,0,0,23,0.0
+15,Company,company,False,measurement,hiring,individual,service or benefit loss,7,1,23,0.30434782608695654
+15,Company,company,False,measurement,hiring,individual,technology-facilitated violence,1,0,23,0.043478260869565216
+15,Healthcare Insitution,healthcare institution,False,deployment,diagnosis,individual,alienation,2,0,26,0.07692307692307693
+15,Healthcare Insitution,healthcare institution,False,deployment,diagnosis,individual,diminished health and well-being,5,0,26,0.19230769230769232
+15,Healthcare Insitution,healthcare institution,False,deployment,diagnosis,individual,economic loss,5,0,26,0.19230769230769232
+15,Healthcare Insitution,healthcare institution,False,deployment,diagnosis,individual,increased labor,6,1,26,0.23076923076923078
+15,Healthcare Insitution,healthcare institution,False,deployment,diagnosis,individual,loss of agency or control,6,0,26,0.23076923076923078
+15,Healthcare Insitution,healthcare institution,False,deployment,diagnosis,individual,opportunity loss,0,0,26,0.0
+15,Healthcare Insitution,healthcare institution,False,deployment,diagnosis,individual,privacy violation,1,0,26,0.038461538461538464
+15,Healthcare Insitution,healthcare institution,False,deployment,diagnosis,individual,service or benefit loss,1,0,26,0.038461538461538464
+15,Healthcare Insitution,healthcare institution,False,deployment,diagnosis,individual,technology-facilitated violence,0,0,26,0.0

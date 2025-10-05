@@ -1,0 +1,3 @@
+domain,blocks,top_hit_rate,exact_acc_rate,exact_defined_frac,mean_point_biserial_r
+diagnosis,20,0.65,0.6111111111111112,0.9,0.49582905116488174
+hiring,20,0.8,0.875,0.8,0.5861603756976936

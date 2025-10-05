@@ -1,0 +1,41 @@
+questionnaire_id,stakeholder,is_group_level,bias_type,domain,harm_family,human_top_harms,llm_selected_harms,top_hit,exact_defined,exact_acc,n_harms,expected_n
+1,applicant,True,algorithmic,hiring,group,demeaning,demeaning,True,True,1.0,7,7
+1,applicant,False,algorithmic,hiring,individual,service or benefit loss,service or benefit loss,True,True,1.0,9,9
+1,applicant,True,representation,hiring,group,stereotyping,stereotyping,True,True,1.0,7,7
+1,applicant,False,representation,hiring,individual,opportunity loss,opportunity loss,True,True,1.0,9,9
+2,applicant,True,deployment,hiring,group,demeaning; stereotyping,erasure,False,False,,7,7
+2,applicant,False,deployment,hiring,individual,opportunity loss,opportunity loss,True,True,1.0,9,9
+2,applicant,True,measurement,hiring,group,demeaning,demeaning,True,True,1.0,7,7
+2,applicant,False,measurement,hiring,individual,opportunity loss,opportunity loss,True,True,1.0,9,9
+3,developer,False,algorithmic,hiring,individual,opportunity loss,increased labor,False,True,0.0,9,9
+3,developer,False,representation,diagnosis,individual,diminished health and well-being,diminished health and well-being,True,True,1.0,9,9
+4,developer,False,deployment,hiring,individual,loss of agency or control,loss of agency or control,True,True,1.0,9,9
+4,developer,False,measurement,diagnosis,individual,diminished health and well-being,diminished health and well-being,True,True,1.0,9,9
+5,company,False,algorithmic,hiring,individual,opportunity loss,opportunity loss,True,True,1.0,9,9
+5,healthcare institution,False,representation,diagnosis,individual,diminished health and well-being,increased labor,False,True,0.0,9,9
+6,company,False,deployment,hiring,individual,opportunity loss; service or benefit loss,opportunity loss,True,False,,9,9
+6,healthcare institution,False,measurement,diagnosis,individual,diminished health and well-being,increased labor,False,True,0.0,9,9
+7,applicant,True,evaluation,hiring,group,demeaning; reifying categories,reifying categories,True,False,,7,7
+7,applicant,False,evaluation,hiring,individual,opportunity loss,opportunity loss,True,True,1.0,9,9
+7,patient,True,evaluation,diagnosis,group,alienation; demeaning,demeaning,True,False,,7,7
+7,patient,False,evaluation,diagnosis,individual,diminished health and well-being,diminished health and well-being,True,True,1.0,9,9
+8,developer,False,evaluation,diagnosis,individual,increased labor,increased labor,True,True,1.0,9,9
+8,developer,False,evaluation,hiring,individual,increased labor,increased labor,True,True,1.0,9,9
+9,company,False,evaluation,hiring,individual,opportunity loss,opportunity loss,True,True,1.0,9,9
+9,healthcare institution,False,evaluation,diagnosis,individual,diminished health and well-being,increased labor,False,True,0.0,9,9
+10,patient,True,algorithmic,diagnosis,group,stereotyping,stereotyping,True,True,1.0,7,7
+10,patient,False,algorithmic,diagnosis,individual,diminished health and well-being,diminished health and well-being,True,True,1.0,9,9
+10,patient,True,representation,diagnosis,group,stereotyping,demeaning,False,True,0.0,7,7
+10,patient,False,representation,diagnosis,individual,diminished health and well-being,diminished health and well-being,True,True,1.0,9,9
+11,patient,True,deployment,diagnosis,group,stereotyping,stereotyping,True,True,1.0,7,7
+11,patient,False,deployment,diagnosis,individual,diminished health and well-being,diminished health and well-being,True,True,1.0,9,9
+11,patient,True,measurement,diagnosis,group,stereotyping,stereotyping,True,True,1.0,7,7
+11,patient,False,measurement,diagnosis,individual,diminished health and well-being,diminished health and well-being,True,True,1.0,9,9
+12,developer,False,algorithmic,diagnosis,individual,service or benefit loss,increased labor,False,True,0.0,9,9
+12,developer,False,representation,hiring,individual,alienation; opportunity loss,diminished health and well-being,False,False,,9,9
+13,developer,False,deployment,diagnosis,individual,alienation,diminished health and well-being,False,True,0.0,9,9
+13,developer,False,measurement,hiring,individual,opportunity loss,increased labor,False,True,0.0,9,9
+14,company,False,representation,hiring,individual,opportunity loss,opportunity loss,True,True,1.0,9,9
+14,healthcare institution,False,algorithmic,diagnosis,individual,diminished health and well-being,increased labor,False,True,0.0,9,9
+15,company,False,measurement,hiring,individual,service or benefit loss,service or benefit loss,True,True,1.0,9,9
+15,healthcare institution,False,deployment,diagnosis,individual,increased labor; loss of agency or control,increased labor,True,False,,9,9

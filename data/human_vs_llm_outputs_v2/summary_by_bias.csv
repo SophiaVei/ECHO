@@ -1,0 +1,6 @@
+bias_type,blocks,top_hit_rate,exact_acc_rate,exact_defined_frac,mean_point_biserial_r
+algorithmic,8,0.625,0.625,1.0,0.5268187971104553
+deployment,8,0.75,0.8,0.625,0.5190788628393596
+evaluation,8,0.875,0.8333333333333334,0.75,0.5613590828664096
+measurement,8,0.75,0.75,1.0,0.5939155118117031
+representation,8,0.625,0.7142857142857143,0.875,0.5038013125285108
