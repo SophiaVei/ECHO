@@ -7,17 +7,20 @@ OUTPUTS (under ./radars_pub/):
 - <domain>__<stakeholder_raw>__ALL_BIASES__radar.png / .pdf
 - <domain>__<stakeholder_raw>__PAIR__<A>__vs__<B>__radar.png / .pdf
 - <domain>__<stakeholder_raw>__PAIR__<A>__vs__<B>__stats.csv
+- <domain>__SIGNIFICANT_PAIRS__collage.png / .pdf   [if --make_collages]
 
 Notes
 - Row-normalized shares P(h|bias) as radius.
-- Per-harm Fisher 2×2 with BH-FDR (q <= alpha) → filled vertex markers (size ∝ |log-odds|).
-- Radial ticks every 10%; smaller tick labels; custom soft palette.
+- Per-harm Fisher 2×2 with BH-FDR (q ≤ alpha) → filled vertex markers (size ∝ |log-odds|).
+- Collages show only bias pairs with ≥1 significant harm (q ≤ alpha), mirroring the tables.
+- Radial ticks every 10%; smaller tick labels; fixed bias colors + single legend on collages.
 """
 
 from __future__ import annotations
 import argparse
 from pathlib import Path
 import itertools
+import math
 import re
 import textwrap
 import numpy as np
@@ -25,6 +28,7 @@ import pandas as pd
 from scipy.stats import chi2_contingency, fisher_exact
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
 # -------------------- Paths & schema --------------------
 DATA_DEFAULT = Path("data/clean_results_human.csv")
@@ -52,17 +56,16 @@ def set_pub_style():
         "legend.frameon": False,
     })
 
-# Custom soft palette (first four are exactly as requested)
-CUSTOM_PALETTE = [
-    "#cce6e0",  # 1
-    "#b2a0df",  # 2
-    "#f9acac",  # 3
-    "#ffdabb",  # 4
-    "#a7c7e7",  # 5  soft blue
-    "#c6e2a9",  # 6  soft green
-    "#f5c2e7",  # 7  soft pink
-    "#c7c7c7",  # 8  neutral gray
-]
+# Fixed bias colors (consistent across all plots)
+BIAS_COLORS = {
+    "algorithmic":      "#72B7B2",
+    "deployment":       "#B39DDB",
+    "evaluation":       "#F28E8E",
+    "measurement":      "#FFD6A5",
+    "representation":   "#90CAF9",
+}
+# Fallback palette (rarely used)
+CUSTOM_PALETTE = ["#cce6e0", "#b2a0df", "#f9acac", "#ffdabb", "#a7c7e7", "#c6e2a9", "#f5c2e7", "#c7c7c7"]
 
 # -------------------- Utilities --------------------
 def sanitize(name: str) -> str:
@@ -72,10 +75,6 @@ def wrap_labels(labels, width=16):
     return ["\n".join(textwrap.wrap(str(x), width=width, break_long_words=True, replace_whitespace=False)) for x in labels]
 
 def percent_ticks_auto_10(rmax, step=0.10, hard_cap=0.60):
-    """
-    Percent y-ticks every 10% up to the next step above rmax (capped).
-    Returns (ticks array, ytop).
-    """
     top = min(hard_cap, (np.ceil(max(rmax, step) / step) * step))
     ticks = np.arange(step, top + 1e-9, step)
     return ticks, float(top)
@@ -104,8 +103,7 @@ def safe_chi2_2xH(ctab_2xH: pd.DataFrame):
 def per_harm_tests(ctab_2xH: pd.DataFrame, add_smooth: float = 0.5) -> pd.DataFrame:
     assert ctab_2xH.shape[0] == 2
     a_name, b_name = ctab_2xH.index.tolist()
-    A = int(ctab_2xH.loc[a_name].sum())
-    B = int(ctab_2xH.loc[b_name].sum())
+    A = int(ctab_2xH.loc[a_name].sum()); B = int(ctab_2xH.loc[b_name].sum())
     harms = list(ctab_2xH.columns)
     pvals, lors, a_counts, b_counts = [], [], [], []
     for h in harms:
@@ -124,6 +122,8 @@ def build_kxH(df_cell: pd.DataFrame) -> pd.DataFrame:
     ).astype(int)
     # keep all harms with any presence in the cell
     ctab = ctab.loc[:, ctab.sum(axis=0) > 0]
+    # make sure bias names match our color keys
+    ctab.index = [str(x).strip().lower() for x in ctab.index]
     return ctab
 
 def row_shares(ctab: pd.DataFrame) -> pd.DataFrame:
@@ -144,6 +144,18 @@ def save_figure(fig: mpl.figure.Figure, out_base: Path):
     fig.savefig(out_base.with_suffix(".pdf"))
     plt.close(fig)
 
+# --------------- helpers to keep significant harms visible ---------------
+def choose_harms_to_plot(ctab_2xH: pd.DataFrame, sig_harms: list[str], max_labels: int | None):
+    """Return an ordered list of harms that includes the top harms by pooled frequency
+    PLUS all significant harms, preserving pooled order."""
+    harms_order = order_harms(ctab_2xH, by="pooled")
+    if max_labels is None or max_labels <= 0:
+        return harms_order
+    top = harms_order[:max_labels]
+    # append any missing significant harms in pooled order
+    extra = [h for h in harms_order if h in sig_harms and h not in top]
+    return top + extra
+
 # -------------------- Plotters --------------------
 def plot_all_bias_radar(ctab: pd.DataFrame, title: str, subtitle: str, out_base: Path,
                         max_labels: int | None = None):
@@ -157,24 +169,24 @@ def plot_all_bias_radar(ctab: pd.DataFrame, title: str, subtitle: str, out_base:
     angles = radar_angles(len(harms_order))
     xticklabels = wrap_labels(harms_order, width=16)
 
-    colors = {b: CUSTOM_PALETTE[i % len(CUSTOM_PALETTE)] for i, b in enumerate(shares.index)}
+    # fixed colors where possible
+    def color_for_bias(b: str, i: int) -> str:
+        return BIAS_COLORS.get(str(b).lower(), CUSTOM_PALETTE[i % len(CUSTOM_PALETTE)])
 
     fig = plt.figure(figsize=(6.2, 6.2))
     ax = plt.subplot(111, polar=True)
 
-    # dynamic radial limit (no clipping)
     data_max = float(np.nanmax(shares.values))
     rmax_target = max(0.20, data_max * 1.08)
     yticks, ytop = percent_ticks_auto_10(rmax_target, step=0.10, hard_cap=0.60)
     ax.set_ylim(0, ytop)
 
-    # polygons (no baseline)
-    for bias in shares.index:
+    for i, bias in enumerate(shares.index):
         vals = np.r_[shares.loc[bias].values, shares.loc[bias].values[0]]
-        ax.plot(angles, vals, linewidth=2.1, color=colors[bias], label=bias, zorder=3)
-        ax.fill(angles, vals, color=colors[bias], alpha=0.18, zorder=2)
+        col = color_for_bias(bias, i)
+        ax.plot(angles, vals, linewidth=2.1, color=col, label=bias, zorder=3)
+        ax.fill(angles, vals, color=col, alpha=0.18, zorder=2)
 
-    # percent ticks every 10% and slightly smaller labels
     ax.set_yticks(yticks)
     ax.set_yticklabels([f"{int(t*100)}%" for t in yticks], fontsize=8)
     ax.set_xticks(angles[:-1])
@@ -190,24 +202,80 @@ def plot_all_bias_radar(ctab: pd.DataFrame, title: str, subtitle: str, out_base:
     fig.tight_layout()
     save_figure(fig, out_base)
 
+def draw_pair_radar_on_ax(ax, ctab_2xH: pd.DataFrame, a_name: str, b_name: str,
+                          q_alpha: float = 0.10, max_labels: int | None = None,
+                          mark_effect_size: bool = True, title: str | None = None):
+    ctab_2xH = ctab_2xH.loc[:, ctab_2xH.sum(axis=0) > 0]
+    if ctab_2xH.shape[1] < 3:
+        return False
+
+    # significance first (so we can force-include those harms)
+    sig_df_full = per_harm_tests(ctab_2xH)
+    sig_harms = sig_df_full.loc[sig_df_full["q"] <= q_alpha, "harm"].tolist()
+
+    harms_order = choose_harms_to_plot(ctab_2xH, sig_harms, max_labels)
+    ctab_2xH = ctab_2xH[harms_order]
+    sig_df = sig_df_full.set_index("harm").loc[harms_order].reset_index()
+
+    shares = row_shares(ctab_2xH)
+    pA = shares.loc[a_name]; pB = shares.loc[b_name]
+
+    angles = radar_angles(len(harms_order))
+    xticklabels = wrap_labels(harms_order, width=16)
+
+    colorA = BIAS_COLORS.get(a_name.lower(), "#6666CC")
+    colorB = BIAS_COLORS.get(b_name.lower(), "#CC6666")
+
+    data_max = float(np.nanmax(shares.values))
+    rmax_target = max(0.20, data_max * 1.08)
+    yticks, ytop = percent_ticks_auto_10(rmax_target, step=0.10, hard_cap=0.60)
+    ax.set_ylim(0, ytop)
+
+    valsA = np.r_[pA.values, pA.values[0]]
+    valsB = np.r_[pB.values, pB.values[0]]
+
+    ax.plot(angles, valsA, linewidth=2.1, color=colorA, label=a_name, zorder=3)
+    ax.fill(angles, valsA, color=colorA, alpha=0.22, zorder=2)
+
+    ax.plot(angles, valsB, linewidth=2.1, color=colorB, label=b_name, zorder=3)
+    ax.fill(angles, valsB, color=colorB, alpha=0.22, zorder=2)
+
+    for i, _ in enumerate(harms_order):
+        if sig_df.loc[i, "q"] <= q_alpha:
+            r = max(valsA[i], valsB[i])
+            size = 20 + 55 * min(2.0, abs(sig_df.loc[i, "lor"])) if mark_effect_size else 36
+            ax.scatter(angles[i], r, s=size, color="#4d4d4d", zorder=5)
+
+    ax.set_yticks(yticks)
+    ax.set_yticklabels([f"{int(t*100)}%" for t in yticks], fontsize=7)
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(xticklabels, fontsize=8)
+
+    if title:
+        ax.set_title(title, pad=8, fontsize=10, fontweight="bold")
+
+    ax.grid(alpha=0.25)
+    return True
+
 def plot_pair_radar(ctab_2xH: pd.DataFrame, title: str, subtitle: str, out_img_base: Path, out_csv: Path,
                     q_alpha: float = 0.10, max_labels: int | None = None, mark_effect_size: bool = True):
-    # keep all harms with any presence in the pair
     ctab_2xH = ctab_2xH.loc[:, ctab_2xH.sum(axis=0) > 0]
     if ctab_2xH.shape[1] < 3:
         return
 
     a_name, b_name = ctab_2xH.index.tolist()
-    harms_order = order_harms(ctab_2xH, by="pooled")
-    if max_labels is not None:
-        harms_order = harms_order[:max_labels]
+
+    # significance first
+    sig_df_full = per_harm_tests(ctab_2xH)
+    sig_harms = sig_df_full.loc[sig_df_full["q"] <= q_alpha, "harm"].tolist()
+
+    harms_order = choose_harms_to_plot(ctab_2xH, sig_harms, max_labels)
     ctab_2xH = ctab_2xH[harms_order]
+    sig_df = sig_df_full.set_index("harm").loc[harms_order].reset_index()
 
     shares = row_shares(ctab_2xH)
     pA = shares.loc[a_name]; pB = shares.loc[b_name]
     delta = pA - pB
-
-    sig_df = per_harm_tests(ctab_2xH).set_index("harm").loc[harms_order].reset_index()
 
     chi2, p, df, exp = safe_chi2_2xH(ctab_2xH)
     residA = residB = np.full_like(pA.values, np.nan, dtype=float)
@@ -235,13 +303,12 @@ def plot_pair_radar(ctab_2xH: pd.DataFrame, title: str, subtitle: str, out_img_b
     angles = radar_angles(len(harms_order))
     xticklabels = wrap_labels(harms_order, width=16)
 
-    # two contrasting colors from the custom palette
-    colorA, colorB = CUSTOM_PALETTE[1], CUSTOM_PALETTE[2]
+    colorA = BIAS_COLORS.get(a_name.lower(), "#6666CC")
+    colorB = BIAS_COLORS.get(b_name.lower(), "#CC6666")
 
     fig = plt.figure(figsize=(6.2, 6.2))
     ax = plt.subplot(111, polar=True)
 
-    # dynamic radial limit (no clipping)
     data_max = float(np.nanmax(shares.values))
     rmax_target = max(0.20, data_max * 1.08)
     yticks, ytop = percent_ticks_auto_10(rmax_target, step=0.10, hard_cap=0.60)
@@ -256,7 +323,6 @@ def plot_pair_radar(ctab_2xH: pd.DataFrame, title: str, subtitle: str, out_img_b
     ax.plot(angles, valsB, linewidth=2.1, color=colorB, label=b_name, zorder=3)
     ax.fill(angles, valsB, color=colorB, alpha=0.22, zorder=2)
 
-    # significance markers (q <= alpha), neutral small-ish dots
     for i, _ in enumerate(harms_order):
         if sig_df.loc[i, "q"] <= q_alpha:
             r = max(valsA[i], valsB[i])
@@ -278,7 +344,7 @@ def plot_pair_radar(ctab_2xH: pd.DataFrame, title: str, subtitle: str, out_img_b
     fig.tight_layout()
     save_figure(fig, out_img_base)
 
-# -------------------- Pipeline --------------------
+# -------------------- Pipeline helpers --------------------
 def load_data(in_path: Path) -> pd.DataFrame:
     df = pd.read_csv(in_path)
     missing = REQUIRED.difference(df.columns)
@@ -286,6 +352,10 @@ def load_data(in_path: Path) -> pd.DataFrame:
         raise ValueError(f"Missing columns in input: {missing}")
     key = ["questionnaire_id", "stakeholder_raw", "bias_type", "domain", "harm"]
     df = df.groupby(key, as_index=False)["votes"].sum()
+    # normalize text
+    df["bias_type"] = df["bias_type"].str.strip().str.lower()
+    df["domain"] = df["domain"].str.strip().str.lower()
+    df["stakeholder_raw"] = df["stakeholder_raw"].str.strip()
     return df
 
 def each_cell(df: pd.DataFrame):
@@ -295,6 +365,7 @@ def each_cell(df: pd.DataFrame):
 def ensure_dir(p: Path):
     p.parent.mkdir(parents=True, exist_ok=True)
 
+# -------------------- Main --------------------
 def main():
     set_pub_style()
     ap = argparse.ArgumentParser(description="Radar plots for bias→harm profiles per (domain × stakeholder_raw).")
@@ -303,43 +374,70 @@ def main():
     ap.add_argument("--out", dest="out_dir", default=str(OUT_ROOT),
                     help="Output directory (default: ./radars_pub)")
     ap.add_argument("--min_harms", type=int, default=5,
-                    help="Minimum number of nonzero harms to plot a radar (default: 5)")
+                    help="Minimum number of nonzero harms to plot an ALL-BIASES radar (default: 5)")
     ap.add_argument("--top_harms", type=int, default=0,
-                    help="If >0, limit radar axes to top-N harms by pooled frequency")
+                    help="If >0, limit radar axes to top-N harms by pooled frequency (sig harms are always kept)")
     ap.add_argument("--no_effect_size_markers", action="store_true",
                     help="Do not scale significance markers by |LOR|")
-    # NEW: significance level flag (default 0.10 to match the main analysis)
     ap.add_argument("--alpha", type=float, default=0.10,
                     help="Significance level for Fisher+BH markers on pair radars (default: 0.10)")
+    ap.add_argument("--sig_only_pairs", action="store_true",
+                    help="Only emit pair radars for bias pairs with at least one harm q ≤ alpha")
+    ap.add_argument("--make_collages", action="store_true",
+                    help="Also emit one merged figure per domain with only significant pairs")
+    ap.add_argument("--max_panels", type=int, default=20,
+                    help="Max panels in a domain collage (default: 20)")
     args = ap.parse_args()
 
     in_path = Path(args.in_path)
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-
     df = load_data(in_path)
+
+    domain_panels: dict[str, list[dict]] = {}
 
     for domain, who, sub in each_cell(df):
         cell_tag = f"{sanitize(domain)}__{sanitize(who)}"
         ctab = build_kxH(sub)
         if ctab.shape[0] < 2 or ctab.shape[1] < args.min_harms:
-            continue
+            # Need at least some harms to draw the ALL-BIASES radar; pair radars can still be drawn later.
+            pass
+        else:
+            # ALL BIASES (descriptive; fixed colors)
+            out_all_base = out_dir / f"{cell_tag}__ALL_BIASES__radar"
+            title_all = f"{domain} × {who}"
+            subtitle_all = "Harm distributions by bias type (row-normalized shares)"
+            ensure_dir(out_all_base)
+            plot_all_bias_radar(ctab, title_all, subtitle_all, out_all_base,
+                                max_labels=(args.top_harms if args.top_harms > 0 else None))
 
-        max_labels = args.top_harms if args.top_harms > 0 else None
-
-        # ALL BIASES (descriptive; no markers)
-        out_all_base = out_dir / f"{cell_tag}__ALL_BIASES__radar"
-        title_all = f"{domain} × {who}"
-        subtitle_all = "Harm distributions by bias type (row-normalized shares)"
-        ensure_dir(out_all_base)
-        plot_all_bias_radar(ctab, title_all, subtitle_all, out_all_base, max_labels=max_labels)
-
-        # Pairwise (inferential markers at q <= alpha)
+        # Pairwise
         biases = ctab.index.tolist()
         for a, b in itertools.combinations(biases, 2):
             ctab_2xH = ctab.loc[[a, b]].copy()
-            if ctab_2xH.sum(axis=0).gt(0).sum() < args.min_harms:
+            num_harms = int(ctab_2xH.sum(axis=0).gt(0).sum())
+
+            # always compute significance on the full pair
+            sig_df = per_harm_tests(ctab_2xH)
+            has_sig = bool(np.any(sig_df["q"].to_numpy() <= args.alpha))
+
+            # ---- Collage stashing happens FIRST ----
+            if args.make_collages and has_sig:
+                domain_panels.setdefault(domain, []).append({
+                    "who": who, "a": a, "b": b, "ctab_2xH": ctab_2xH.copy()
+                })
+
+            # If user wants only significant pairs as stand-alone figures
+            if args.sig_only_pairs and not has_sig:
+                print(f"[skip pair PNG] {domain}/{who}: {a} vs {b} — no q≤{args.alpha}")
                 continue
+
+            # We still want at least 3 harms to render a sensible radar shape
+            if num_harms < 3:
+                print(f"[skip radar draw] {domain}/{who}: {a} vs {b} — only {num_harms} non-zero harms")
+                continue
+
+            # Save the standalone pair radar (+ CSV)
             out_img_base = out_dir / f"{cell_tag}__PAIR__{sanitize(a)}__vs__{sanitize(b)}__radar"
             out_csv = out_dir / f"{cell_tag}__PAIR__{sanitize(a)}__vs__{sanitize(b)}__stats.csv"
             ensure_dir(out_img_base)
@@ -351,16 +449,55 @@ def main():
                 subtitle=subtitle,
                 out_img_base=out_img_base,
                 out_csv=out_csv,
-                q_alpha=args.alpha,                 # <- uses --alpha
-                max_labels=max_labels,
+                q_alpha=args.alpha,
+                max_labels=(args.top_harms if args.top_harms > 0 else None),
                 mark_effect_size=not args.no_effect_size_markers
             )
+
+
+    # Build domain collages (only significant pairs; capped)
+    if args.make_collages and domain_panels:
+        for domain, panels in domain_panels.items():
+            if not panels:
+                continue
+            # stable order: by stakeholder, then bias names
+            panels = sorted(panels, key=lambda p: (p["who"], p["a"], p["b"]))
+            panels = panels[: args.max_panels]
+
+            n = len(panels)
+            cols = 2 if n <= 4 else 3
+            rows = math.ceil(n / cols)
+
+            fig = plt.figure(figsize=(6.2 * cols, 6.0 * rows))
+            fig.suptitle(
+                f"{domain} — significant bias-pair differences (q ≤ {args.alpha:.2f})",
+                fontsize=14, fontweight="bold", y=0.995
+            )
+
+            for i, p in enumerate(panels, start=1):
+                ax = fig.add_subplot(rows, cols, i, polar=True)
+                title = f"{p['who']}: {p['a']} vs {p['b']}"
+                draw_pair_radar_on_ax(
+                    ax,
+                    p["ctab_2xH"],
+                    a_name=p["a"],
+                    b_name=p["b"],
+                    q_alpha=args.alpha,
+                    max_labels=(args.top_harms if args.top_harms > 0 else None),
+                    mark_effect_size=not args.no_effect_size_markers,
+                    title=title
+                )
+
+            # Shared legend (fixed bias colors)
+            legend_handles = [Line2D([0], [0], color=col, lw=3, label=lab)
+                              for lab, col in BIAS_COLORS.items()]
+            fig.legend(handles=legend_handles, loc="upper right", bbox_to_anchor=(0.995, 0.995))
+
+            fig.tight_layout(rect=[0, 0, 1, 0.95])
+            out_base = out_dir / f"{sanitize(domain)}__SIGNIFICANT_PAIRS__collage"
+            save_figure(fig, out_base)
 
     print(f"Done. Plots written under: {out_dir.resolve()}")
 
 if __name__ == "__main__":
     main()
-
-
-
-# to run: python make_bias_harm_radars.py --in data/clean_results_human.csv --out radars
