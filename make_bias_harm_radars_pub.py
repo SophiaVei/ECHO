@@ -406,7 +406,7 @@ def main():
             # ALL BIASES (descriptive; fixed colors)
             out_all_base = out_dir / f"{cell_tag}__ALL_BIASES__radar"
             title_all = f"{domain} × {who}"
-            subtitle_all = "Harm distributions by bias type (row-normalized shares)"
+            subtitle_all = ""
             ensure_dir(out_all_base)
             plot_all_bias_radar(ctab, title_all, subtitle_all, out_all_base,
                                 max_labels=(args.top_harms if args.top_harms > 0 else None))
