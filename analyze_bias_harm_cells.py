@@ -1,122 +1,184 @@
+# make_bias_harm_radars_pub.py
 # -*- coding: utf-8 -*-
 """
-Analyze bias_type → harm within (domain × stakeholder) cells.
+ALL-BIASES radar plots per (domain × stakeholder_raw), plus ONE collage **per domain**.
 
-Outputs (under ./tables_py/):
-- <domain>__<stakeholder>__omnibus.txt                 # omnibus χ² summary for K×H
-- <domain>__<stakeholder>__kxH_counts.csv              # bias×harm observed counts (votes)
-- <domain>__<stakeholder>__kxH_rowshares.csv           # row-normalized shares (P(h|bias))
-- <domain>__<stakeholder>__kxH_stdresid.csv            # standardized residuals (omnibus K×H; NaN where pruned)
-- <domain>__<stakeholder>__pairwise.csv                # all bias pairs with χ², p, perm_p, V, w, q
-- <domain>__<stakeholder>__PAIR__A__vs__B__perharm.csv # per-harm Fisher p/q, LOR, share diffs
-- <domain>__SIGNIFICANT_PAIRS.csv                      # NEW: aggregated domain-specific significant results (q ≤ 0.10)
+OUTPUTS (under ./radars_pub/):
+- <domain>__<stakeholder_raw>__ALL_BIASES__radar.png / .pdf
+- <domain>__ALL_BIASES__COLLAGE.png / .pdf   (one per domain; single legend, 4 columns)
+
+Notes
+- Row-normalized shares P(h|bias) as radius.
+- Radial ticks every 10%; smaller tick labels; fixed bias colors + single legend on each collage.
 """
 
 from __future__ import annotations
 import argparse
 from pathlib import Path
-import itertools
+import math
+import re
+import textwrap
 import numpy as np
 import pandas as pd
-from scipy.stats import chi2_contingency, fisher_exact
+import matplotlib as mpl
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
-from statsmodels.graphics.mosaicplot import mosaic
-
-
-# -------------------- Mosaic plotting --------------------
-def plot_mosaic(ctab: pd.DataFrame, stdres_df: pd.DataFrame, out_prefix: Path):
-    data = {(i, j): int(v) for (i, j), v in ctab.stack().items()}
-    resid_map = stdres_df.stack().to_dict()
-
-    cmap = plt.cm.coolwarm
-    norm = mcolors.TwoSlopeNorm(vmin=-3, vcenter=0, vmax=3)
-    props = {}
-    for key, _ in data.items():
-        r = resid_map.get(key, np.nan)
-        color = cmap(norm(r)) if np.isfinite(r) else (0.8, 0.8, 0.8, 1.0)
-        props[key] = {"color": color}
-
-    fig, ax = plt.subplots()
-    mosaic(data, gap=0.01, properties=props, ax=ax)
-    ax.set_title(f"Mosaic plot: Bias × Harm\n({out_prefix.stem.replace('__',' – ')})", fontsize=12)
-    ax.set_xlabel("Bias type")
-    ax.set_ylabel("Harm type")
-    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
-    sm.set_array([])
-    cbar = plt.colorbar(sm, ax=ax, shrink=0.7)
-    cbar.set_label("Standardized residual (z-score)")
-    plt.tight_layout()
-    plt.savefig(out_prefix.with_name(out_prefix.name + "__mosaic.png"), dpi=300)
-    plt.close()
-
+from matplotlib.lines import Line2D
 
 # -------------------- Paths & schema --------------------
-OUT_ROOT = Path("tables_py")
+DATA_DEFAULT = Path("data/clean_results_human.csv")
+OUT_ROOT = Path("radars_pub")
 OUT_ROOT.mkdir(parents=True, exist_ok=True)
+
 REQUIRED = {"questionnaire_id", "stakeholder_raw", "bias_type", "domain", "harm", "votes"}
 
+# -------------------- Theme --------------------
+def set_pub_style():
+    mpl.rcParams.update({
+        "figure.dpi": 150,
+        "savefig.dpi": 600,
+        "savefig.bbox": "tight",
+        "font.size": 10.0,
+        "font.family": "DejaVu Sans",
+        "axes.edgecolor": "#444444",
+        "axes.labelcolor": "#222222",
+        "text.color": "#222222",
+        "xtick.color": "#333333",
+        "ytick.color": "#333333",
+        "grid.color": "#E6E6E6",
+        "grid.linestyle": "-",
+        "grid.linewidth": 0.6,
+        "legend.frameon": False,
+    })
+
+# Fixed bias colors (consistent across all plots)
+BIAS_COLORS = {
+    "algorithmic":      "#72B7B2",
+    "deployment":       "#B39DDB",
+    "evaluation":       "#F28E8E",
+    "measurement":      "#FFD6A5",
+    "representation":   "#90CAF9",
+}
+# Fallback palette (rarely used)
+CUSTOM_PALETTE = ["#cce6e0", "#b2a0df", "#f9acac", "#ffdabb", "#a7c7e7", "#c6e2a9", "#f5c2e7", "#c7c7c7"]
 
 # -------------------- Utilities --------------------
-def bh_fdr(pvals: np.ndarray) -> np.ndarray:
-    p = np.asarray(pvals, dtype=float)
-    n = p.size
-    order = np.argsort(p)
-    ranks = np.arange(1, n + 1, dtype=float)
-    q_sorted = p[order] * n / ranks
-    q_sorted = np.minimum.accumulate(q_sorted[::-1])[::-1]
-    q = np.empty_like(q_sorted)
-    q[order] = q_sorted
-    return np.clip(q, 0, 1)
+def sanitize(name: str) -> str:
+    return re.sub(r"[^A-Za-z0-9\-_.]+", "_", str(name).strip().lower())
 
+def wrap_labels(labels, width=16):
+    return ["\n".join(textwrap.wrap(str(x), width=width, break_long_words=True, replace_whitespace=False)) for x in labels]
 
-def standardized_residuals(obs: np.ndarray, exp: np.ndarray) -> np.ndarray:
-    with np.errstate(divide="ignore", invalid="ignore"):
-        return (obs - exp) / np.sqrt(exp)
+def percent_ticks_auto_10(rmax, step=0.10, hard_cap=0.60):
+    top = min(hard_cap, (np.ceil(max(rmax, step) / step) * step))
+    ticks = np.arange(step, top + 1e-9, step)
+    return ticks, float(top)
 
+def build_kxH(df_cell: pd.DataFrame) -> pd.DataFrame:
+    ctab = pd.pivot_table(
+        df_cell, values="votes", index="bias_type", columns="harm", aggfunc="sum", fill_value=0
+    ).astype(int)
+    ctab = ctab.loc[:, ctab.sum(axis=0) > 0]
+    ctab.index = [str(x).strip().lower() for x in ctab.index]
+    return ctab
 
-def cramers_v(chi2: float, n: int, r: int, c: int) -> float:
-    if n <= 0: return np.nan
-    k = min(r - 1, c - 1)
-    if k <= 0: return np.nan
-    return float(np.sqrt(chi2 / (n * k)))
+def row_shares(ctab: pd.DataFrame) -> pd.DataFrame:
+    denom = ctab.sum(axis=1).replace(0, np.nan)
+    return (ctab.T / denom).T
 
+def order_harms(ctab: pd.DataFrame, by: str = "pooled") -> list[str]:
+    if by == "pooled":
+        return list(ctab.sum(axis=0).sort_values(ascending=False).index)
+    return list(ctab.columns)
 
-def cohens_w_from_obs_exp(obs: np.ndarray, exp: np.ndarray) -> float:
-    with np.errstate(divide="ignore", invalid="ignore"):
-        chi2 = np.nansum((obs - exp) ** 2 / exp)
-    N = np.nansum(obs)
-    return float(np.sqrt(chi2 / N)) if N > 0 else np.nan
+def radar_angles(n_axes: int):
+    angles = np.linspace(0, 2 * np.pi, n_axes, endpoint=False)
+    return np.concatenate([angles, [angles[0]]])
 
+def save_figure(fig: mpl.figure.Figure, out_base: Path):
+    fig.savefig(out_base.with_suffix(".png"), dpi=600)
+    fig.savefig(out_base.with_suffix(".pdf"))
+    plt.close(fig)
 
-def safe_chi2_return_table(table: pd.DataFrame):
-    t = table.loc[:, table.sum(axis=0) > 0]
-    t = t.loc[t.sum(axis=1) > 0]
-    if t.shape[0] < 2 or t.shape[1] < 2:
-        return np.nan, np.nan, 0, None, t
-    chi2, p, df, exp = chi2_contingency(t.to_numpy(), correction=False)
-    return chi2, p, df, exp, t
+# -------------------- Plotters (ALL only) --------------------
+def plot_all_bias_radar(ctab: pd.DataFrame, title: str, out_base: Path,
+                        max_labels: int | None = None):
+    """Standalone ALL_BIASES figure with legend."""
+    if ctab.empty or ctab.shape[0] < 1 or ctab.shape[1] < 3:
+        return
+    harms_order = order_harms(ctab, by="pooled")
+    if max_labels is not None and max_labels > 0:
+        harms_order = harms_order[:max_labels]
 
+    shares = row_shares(ctab)[harms_order]
+    angles = radar_angles(len(harms_order))
+    xticklabels = wrap_labels(harms_order, width=16)
 
-def per_harm_fisher_2x2(ctab_2xH: pd.DataFrame, add_smooth: float = 0.5) -> pd.DataFrame:
-    assert ctab_2xH.shape[0] == 2
-    a_name, b_name = ctab_2xH.index.tolist()
-    A = int(ctab_2xH.loc[a_name].sum())
-    B = int(ctab_2xH.loc[b_name].sum())
-    harms = list(ctab_2xH.columns)
-    pvals, lors, a_counts, b_counts = [], [], [], []
-    for h in harms:
-        a = int(ctab_2xH.loc[a_name, h]); b = int(ctab_2xH.loc[b_name, h])
-        _, p = fisher_exact([[a, A - a], [b, B - b]], alternative="two-sided")
-        a1, b1 = a + add_smooth, b + add_smooth
-        A1, B1 = (A - a) + add_smooth, (B - b) + add_smooth
-        lor = np.log((a1 / A1) / (b1 / B1))
-        pvals.append(p); lors.append(lor); a_counts.append(a); b_counts.append(b)
-    qvals = bh_fdr(np.array(pvals))
-    return pd.DataFrame({"harm": harms, "a_harm": a_counts, "b_harm": b_counts, "p": pvals, "q": qvals, "lor": lors})
+    def color_for_bias(b: str, i: int) -> str:
+        return BIAS_COLORS.get(str(b).lower(), CUSTOM_PALETTE[i % len(CUSTOM_PALETTE)])
 
+    fig = plt.figure(figsize=(6.2, 6.2))
+    ax = plt.subplot(111, polar=True)
 
-# -------------------- Data prep --------------------
+    data_max = float(np.nanmax(shares.values))
+    rmax_target = max(0.20, data_max * 1.08)
+    yticks, ytop = percent_ticks_auto_10(rmax_target, step=0.10, hard_cap=0.60)
+    ax.set_ylim(0, ytop)
+
+    for i, bias in enumerate(shares.index):
+        vals = np.r_[shares.loc[bias].values, shares.loc[bias].values[0]]
+        col = color_for_bias(bias, i)
+        ax.plot(angles, vals, linewidth=2.1, color=col, label=bias, zorder=3)
+        ax.fill(angles, vals, color=col, alpha=0.18, zorder=2)
+
+    ax.set_yticks(yticks)
+    ax.set_yticklabels([f"{int(t*100)}%" for t in yticks], fontsize=8)
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(xticklabels, fontsize=9)
+
+    ax.set_title(title, pad=12, loc="center", fontsize=11, fontweight="bold")
+    ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1.02),
+              borderaxespad=0.0, handlelength=1.6)
+    ax.grid(alpha=0.25)
+
+    fig.tight_layout()
+    save_figure(fig, out_base)
+
+def draw_all_bias_radar_on_ax(ax, ctab: pd.DataFrame, title: str, max_labels: int | None = None):
+    """Same ALL plot but draws on provided axes (no legend) for collages."""
+    if ctab.empty or ctab.shape[0] < 1 or ctab.shape[1] < 3:
+        return False
+
+    harms_order = order_harms(ctab, by="pooled")
+    if max_labels is not None and max_labels > 0:
+        harms_order = harms_order[:max_labels]
+
+    shares = row_shares(ctab)[harms_order]
+    angles = radar_angles(len(harms_order))
+    xticklabels = wrap_labels(harms_order, width=14)
+
+    def color_for_bias(b: str, i: int) -> str:
+        return BIAS_COLORS.get(str(b).lower(), CUSTOM_PALETTE[i % len(CUSTOM_PALETTE)])
+
+    data_max = float(np.nanmax(shares.values))
+    rmax_target = max(0.20, data_max * 1.08)
+    yticks, ytop = percent_ticks_auto_10(rmax_target, step=0.10, hard_cap=0.60)
+    ax.set_ylim(0, ytop)
+
+    for i, bias in enumerate(shares.index):
+        vals = np.r_[shares.loc[bias].values, shares.loc[bias].values[0]]
+        col = color_for_bias(bias, i)
+        ax.plot(angles, vals, linewidth=1.8, color=col, zorder=3)
+        ax.fill(angles, vals, color=col, alpha=0.18, zorder=2)
+
+    ax.set_yticks(yticks)
+    ax.set_yticklabels([f"{int(t*100)}%" for t in yticks], fontsize=7)
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(xticklabels, fontsize=7)
+    ax.set_title(title, pad=8, fontsize=9, fontweight="bold")
+    ax.grid(alpha=0.25)
+    return True
+
+# -------------------- Data helpers --------------------
 def load_data(in_path: Path) -> pd.DataFrame:
     df = pd.read_csv(in_path)
     missing = REQUIRED.difference(df.columns)
@@ -124,150 +186,98 @@ def load_data(in_path: Path) -> pd.DataFrame:
         raise ValueError(f"Missing columns in input: {missing}")
     key = ["questionnaire_id", "stakeholder_raw", "bias_type", "domain", "harm"]
     df = df.groupby(key, as_index=False)["votes"].sum()
-    if "stakeholder" not in df.columns:
-        df["stakeholder"] = df["stakeholder_raw"]
+    df["bias_type"] = df["bias_type"].str.strip().str.lower()
+    df["domain"] = df["domain"].str.strip().str.lower()
+    df["stakeholder_raw"] = df["stakeholder_raw"].str.strip()
     return df
 
+def each_cell(df: pd.DataFrame):
+    for (domain, who), sub in df.groupby(["domain", "stakeholder_raw"], dropna=False):
+        yield str(domain), str(who), sub
 
-def filter_cell(df: pd.DataFrame, domain: str, stakeholder: str) -> pd.DataFrame:
-    d = df.copy()
-    d = d[d["domain"].astype(str).str.lower() == domain.lower()]
-    d = d[d["stakeholder"].astype(str).str.lower() == stakeholder.lower()]
-    if d.empty:
-        raise SystemExit(f"No data for domain='{domain}' & stakeholder='{stakeholder}'")
-    return d
+def ensure_dir(p: Path):
+    p.parent.mkdir(parents=True, exist_ok=True)
 
-
-def build_kxH(d: pd.DataFrame) -> pd.DataFrame:
-    ctab = pd.pivot_table(d, values="votes", index="bias_type", columns="harm", aggfunc="sum", fill_value=0).astype(int)
-    ctab = ctab.loc[:, ctab.sum(axis=0) > 0]
-    ctab = ctab.loc[ctab.sum(axis=1) > 0]
-    return ctab
-
-
-def row_shares(ctab: pd.DataFrame) -> pd.DataFrame:
-    denom = ctab.sum(axis=1).replace(0, np.nan)
-    return (ctab.T / denom).T
-
-
-# -------------------- Main analysis per cell --------------------
-def analyze_cell(ctab: pd.DataFrame, out_prefix: Path, perm_n: int = 0):
-    out_prefix.parent.mkdir(parents=True, exist_ok=True)
-    ctab.to_csv(out_prefix.with_name(out_prefix.name + "__kxH_counts.csv"))
-    row_shares(ctab).to_csv(out_prefix.with_name(out_prefix.name + "__kxH_rowshares.csv"))
-
-    chi2, p, df, exp, t_pruned = safe_chi2_return_table(ctab)
-    stdres_df = pd.DataFrame(np.nan, index=ctab.index, columns=ctab.columns, dtype=float)
-    if exp is not None:
-        stdres_small = standardized_residuals(t_pruned.to_numpy(), exp)
-        stdres_df.loc[t_pruned.index, t_pruned.columns] = stdres_small
-    stdres_df.to_csv(out_prefix.with_name(out_prefix.name + "__kxH_stdresid.csv"))
-
-    K, H = ctab.shape
-    N = int(ctab.values.sum())
-    V = cramers_v(chi2, N, *t_pruned.shape) if np.isfinite(chi2) else np.nan
-
-    with open(out_prefix.with_name(out_prefix.name + "__omnibus.txt"), "w", encoding="utf-8") as f:
-        f.write(f"Table: K×H (original) = {K}×{H}; N={N}\nχ²={chi2:.2f}, p={p:.4f}, V={V:.3f}\n")
-
-    rows = ctab.index.tolist()
-    pair_rows = []
-    for a, b in itertools.combinations(rows, 2):
-        ctab_2xH_full = ctab.loc[[a, b]].copy()
-        chi2p, pp, dff, exp2, t2 = safe_chi2_return_table(ctab_2xH_full)
-        obs2 = t2.to_numpy(); n2 = int(obs2.sum())
-        Vp = cramers_v(chi2p, n2, *obs2.shape) if np.isfinite(chi2p) else np.nan
-        perharm = per_harm_fisher_2x2(ctab_2xH_full).set_index("harm")
-        shares = row_shares(ctab_2xH_full)
-        pA, pB = shares.loc[a], shares.loc[b]
-        delta = pA - pB
-        out_ph = pd.DataFrame({
-            "harm": pA.index,
-            "share_A": pA.values,
-            "share_B": pB.values,
-            "share_diff_A_minus_B": delta.values,
-            "a_harm": perharm["a_harm"].values,
-            "b_harm": perharm["b_harm"].values,
-            "p": perharm["p"].values,
-            "q": perharm["q"].values,
-            "lor": perharm["lor"].values,
-        })
-        out_ph.to_csv(out_prefix.with_name(out_prefix.name + f"__PAIR__{a}__vs__{b}__perharm.csv"), index=False)
-
-    try:
-        plot_mosaic(ctab, stdres_df, out_prefix)
-    except Exception as e:
-        print(f"[Warning] Mosaic plot failed for {out_prefix.name}: {e}")
-
-
-# -------------------- COLLECT AND PRINT SIGNIFICANT RESULTS --------------------
-def summarize_significant_pairs(out_root: Path, q_threshold: float = 0.10):
-    all_files = list(out_root.glob("*__PAIR__*__perharm.csv"))
-    if not all_files:
-        print("\n[Info] No per-harm files found. Skipping summary.")
-        return
-
-    # Group by domain prefix
-    domains = sorted({f.name.split("__")[0] for f in all_files})
-    print("\n==================== DOMAIN-SPECIFIC SIGNIFICANT RESULTS ====================")
-    for domain in domains:
-        files = [f for f in all_files if f.name.startswith(domain + "__")]
-        rows = []
-        for f in files:
-            parts = f.stem.split("__")
-            stakeholder = parts[1]
-            bias_a, bias_b = parts[4], parts[6]
-            df = pd.read_csv(f)
-            sig = df[df["q"] <= q_threshold]
-            for _, r in sig.iterrows():
-                rows.append({
-                    "Stakeholder": stakeholder,
-                    "Bias_A": bias_a,
-                    "Bias_B": bias_b,
-                    "Harm": r["harm"],
-                    "A_share": round(r["share_A"], 3),
-                    "B_share": round(r["share_B"], 3),
-                    "Δ_share": round(r["share_diff_A_minus_B"], 3),
-                    "p": round(r["p"], 4),
-                    "q": round(r["q"], 4)
-                })
-
-        if not rows:
-            print(f"\n[{domain.upper()}] – No significant (q ≤ {q_threshold}) bias–harm pairs found.")
-            continue
-
-        df_out = pd.DataFrame(rows)
-        df_out = df_out.sort_values(["Stakeholder", "Bias_A", "Bias_B", "q"])
-        print(f"\n[{domain.upper()}] Significant pairs (q ≤ {q_threshold}):")
-        print(df_out.to_string(index=False))
-        df_out.to_csv(out_root / f"{domain}__SIGNIFICANT_PAIRS.csv", index=False)
-
-
-# -------------------- CLI --------------------
+# -------------------- Main --------------------
 def main():
-    ap = argparse.ArgumentParser(description="Analyze bias_type × harm inside (domain × stakeholder) cells.")
-    ap.add_argument("--in", dest="in_path", required=True, help="Path to clean_results_human.csv")
-    ap.add_argument("--sweep_all", action="store_true", help="Analyze all (domain × stakeholder) cells.")
+    set_pub_style()
+    ap = argparse.ArgumentParser(description="ALL-BIASES radars per (domain × stakeholder_raw) + one collage per domain.")
+    ap.add_argument("--in", dest="in_path", default=str(DATA_DEFAULT),
+                    help="Input CSV path (clean_results_human.csv)")
+    ap.add_argument("--out", dest="out_dir", default=str(OUT_ROOT),
+                    help="Output directory (default: ./radars_pub)")
+    ap.add_argument("--min_harms", type=int, default=5,
+                    help="Minimum number of nonzero harms to plot an ALL-BIASES radar (default: 5)")
+    ap.add_argument("--top_harms", type=int, default=0,
+                    help="If >0, limit radar axes to top-N harms by pooled frequency")
+    ap.add_argument("--cols", type=int, default=4,
+                    help="Columns for each collage grid (default: 4)")
+    ap.add_argument("--max_panels_per_domain", type=int, default=200,
+                    help="Max panels to include per-domain collage (default: 200)")
     args = ap.parse_args()
 
-    df = load_data(Path(args.in_path))
+    in_path = Path(args.in_path)
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    df = load_data(in_path)
 
-    if args.sweep_all:
-        for (domain, who), sub in df.groupby(["domain", "stakeholder"], dropna=False):
-            ctab = build_kxH(sub)
-            if ctab.shape[0] < 2 or ctab.shape[1] < 2:
-                continue
-            tag = f"{domain}__{who}".replace(" ", "_")
-            out_prefix = OUT_ROOT / tag
-            analyze_cell(ctab, out_prefix)
-        print(f"\nDone. Results in: {OUT_ROOT.resolve()}")
+    # {domain: list of {who, ctab}}
+    panels_by_domain: dict[str, list[dict]] = {}
 
-        # After all analyses, summarize significant pairs
-        summarize_significant_pairs(OUT_ROOT, q_threshold=0.10)
-        return
+    for domain, who, sub in each_cell(df):
+        cell_tag = f"{sanitize(domain)}__{sanitize(who)}"
+        ctab = build_kxH(sub)
+        if ctab.shape[0] < 2 or ctab.shape[1] < args.min_harms:
+            continue
 
-    print("Use --sweep_all to process all domain×stakeholder cells at once.")
+        # Standalone ALL plot
+        out_all_base = out_dir / f"{cell_tag}__ALL_BIASES__radar"
+        ensure_dir(out_all_base)
+        title_all = f"{domain} × {who}"
+        plot_all_bias_radar(
+            ctab,
+            title_all,
+            out_all_base,
+            max_labels=(args.top_harms if args.top_harms > 0 else None)
+        )
 
+        # Stash for domain collage
+        panels_by_domain.setdefault(domain, []).append({"who": who, "ctab": ctab})
+
+    # -------- Collage per domain (single legend, 4 columns default) --------
+    for domain, panels in panels_by_domain.items():
+        if not panels:
+            continue
+        # stable order by stakeholder
+        panels = sorted(panels, key=lambda p: p["who"])[: args.max_panels_per_domain]
+
+        n = len(panels)
+        cols = max(1, args.cols)
+        rows = math.ceil(n / cols)
+
+        fig = plt.figure(figsize=(4.8 * cols, 4.6 * rows))
+        fig.suptitle(f"{domain} — radars across stakeholders",
+                     fontsize=14, fontweight="bold", y=0.995)
+
+        for i, p in enumerate(panels, start=1):
+            ax = fig.add_subplot(rows, cols, i, polar=True)
+            title = f"{p['who']}"
+            draw_all_bias_radar_on_ax(
+                ax,
+                p["ctab"],
+                title=title,
+                max_labels=(args.top_harms if args.top_harms > 0 else None)
+            )
+
+        legend_handles = [Line2D([0], [0], color=col, lw=3, label=lab)
+                          for lab, col in BIAS_COLORS.items()]
+        fig.legend(handles=legend_handles, loc="upper right", bbox_to_anchor=(0.995, 0.995))
+
+        fig.tight_layout(rect=[0, 0, 1, 0.95])
+        out_base = out_dir / f"{sanitize(domain)}__ALL_BIASES__COLLAGE"
+        save_figure(fig, out_base)
+
+    print(f"Done. Plots and per-domain collages written under: {out_dir.resolve()}")
 
 if __name__ == "__main__":
     main()
