@@ -15,13 +15,6 @@ Outputs (figures/):
   10_heatmap_stakeholder_by_harm.png
   11_stacked_shares_by_domain.png
   12_heatmap_domain_by_harm.png
-
-CLI examples:
-  python visualize_results_human.py
-  python visualize_results_human.py --domain hiring
-  python visualize_results_human.py --bias_type representation
-  python visualize_results_human.py --stakeholder "applicant group" --domain hiring
-  python visualize_results_human.py --top_k_focus 4 --top_n_stakeholders 7
 """
 
 from __future__ import annotations
@@ -117,6 +110,82 @@ def color_cycle(n: int) -> list[str]:
 def wrap_labels(labels, width=18):
     return ["\n".join(wrap(str(x), width)) for x in labels]
 
+def get_levels(full_df: pd.DataFrame) -> dict[str, list[str]]:
+    """Global levels for axes so heatmaps always show all categories (even if zero)."""
+    levels = {
+        "bias_type": sorted(full_df["bias_type"].dropna().unique().tolist()),
+        "harm": sorted(full_df["harm"].dropna().unique().tolist()),
+        "stakeholder_raw": sorted(full_df["stakeholder_raw"].dropna().unique().tolist()),
+        "domain": sorted(full_df["domain"].dropna().unique().tolist()),
+    }
+    return levels
+
+# ------------------------ Plot style helpers (readable heatmaps) ------------------------
+
+def _heatmap_label_params(n_rows: int, n_cols: int):
+    """Return sensible (wrap_width, xfontsize, yfontsize, rotation, margins) based on grid size."""
+    # Wrap width scales with number of columns (more cols => narrower wrap)
+    if n_cols <= 12:
+        wrap_w, xfs = 18, 11
+        bottom = 0.18
+        rotation = 30
+    elif n_cols <= 20:
+        wrap_w, xfs = 16, 10
+        bottom = 0.22
+        rotation = 35
+    elif n_cols <= 35:
+        wrap_w, xfs = 14, 9
+        bottom = 0.28
+        rotation = 40
+    else:
+        wrap_w, xfs = 12, 8
+        bottom = 0.34
+        rotation = 45
+
+    # Y-axis font size and left margin scale with rows
+    if n_rows <= 12:
+        yfs = 11
+        left = 0.15
+    elif n_rows <= 25:
+        yfs = 10
+        left = 0.20
+    elif n_rows <= 40:
+        yfs = 9
+        left = 0.25
+    else:
+        yfs = 8
+        left = 0.30
+
+    return wrap_w, xfs, yfs, rotation, left, bottom
+
+def _heatmap_figsize(n_rows: int, n_cols: int, min_w=8, min_h=4.5):
+    """Compute a figure size big enough to keep tick labels readable."""
+    # Each column gets ~0.45 in width; each row gets ~0.45 in height
+    w = max(min_w, 0.45 * n_cols)
+    h = max(min_h, 0.45 * n_rows)
+    return (w, h)
+
+def _style_heatmap_axes(ax, rows, cols):
+    """Apply readable ticks, wrapping, rotation, and tick params."""
+    n_rows, n_cols = len(rows), len(cols)
+    wrap_w, xfs, yfs, rotation, left, bottom = _heatmap_label_params(n_rows, n_cols)
+
+    ax.set_yticks(range(n_rows))
+    ax.set_yticklabels(rows, fontsize=yfs)
+
+    xlabels = wrap_labels(cols, wrap_w)
+    ax.set_xticks(range(n_cols))
+    ax.set_xticklabels(xlabels, rotation=rotation, ha="right", fontsize=xfs)
+
+    # Gridlines to aid reading across/along labels without clutter
+    ax.set_xticks(np.arange(-.5, n_cols, 1), minor=True)
+    ax.set_yticks(np.arange(-.5, n_rows, 1), minor=True)
+    ax.grid(which="minor", color="#f1f1f1", linewidth=0.6)
+    ax.tick_params(which="both", length=0)
+
+    # Leave space for labels/colorbar
+    plt.subplots_adjust(left=left, bottom=bottom, right=0.95, top=0.90)
+
 # ------------------------ Insight plots ------------------------
 
 def plot_stacked_shares_by_domain(df: pd.DataFrame, title_suffix: str = ""):
@@ -145,50 +214,43 @@ def plot_stacked_shares_by_domain(df: pd.DataFrame, title_suffix: str = ""):
     ax.set_title(ttl); ax.legend(ncol=2, bbox_to_anchor=(1.02, 1), loc="upper left"); ax.grid(axis="x")
     fig.tight_layout(); fig.savefig(FIG_DIR / "11_stacked_shares_by_domain.png", bbox_inches="tight"); plt.close(fig)
 
-def plot_heatmap_domain_by_harm(df: pd.DataFrame, top_n_domains: int = None, top_m_harms: int = 10, title_suffix: str = ""):
-    """Domain (rows) × Harm (cols) weighted-share heatmap; optionally trim to top-N/M for readability."""
+def plot_heatmap_domain_by_harm(df: pd.DataFrame, LEVELS: dict, title_suffix: str = ""):
+    """Domain (rows) × Harm (cols) heatmap with all categories shown (zeros if absent)."""
     if df.empty: return
     d = df.copy()
     d["weighted_share"] = d["vote_share"] * d["total_votes"]
-
-    # pick domains (all or top-N by participation)
-    dom_tot = (d.groupby("domain", as_index=False)["total_votes"].sum()
-                 .sort_values("total_votes", ascending=False))
-    if top_n_domains is not None:
-        dom_tot = dom_tot.head(top_n_domains)
-    keep_dom = set(dom_tot["domain"])
-    d = d[d["domain"].isin(keep_dom)].copy()
-
     mat = (d.groupby(["domain","harm"], as_index=False)
              .agg(weighted_share=("weighted_share","sum"), total=("total_votes","sum")))
     mat["share"] = mat["weighted_share"] / mat["total"]
 
-    # take top harms by overall weighted share
-    top_h = (mat.groupby("harm", as_index=False)["weighted_share"].sum()
-               .sort_values("weighted_share", ascending=False).head(top_m_harms))["harm"].tolist()
-    mat = mat[mat["harm"].isin(top_h)].copy()
+    pivot = (mat.pivot(index="domain", columns="harm", values="share")
+                .reindex(index=LEVELS["domain"], columns=LEVELS["harm"])
+                .fillna(0.0))
 
-    rows = dom_tot["domain"].tolist()
-    cols = sorted(top_h)
-    grid = np.zeros((len(rows), len(cols)))
-    for i, r in enumerate(rows):
-        for j, c in enumerate(cols):
-            v = mat.loc[(mat["domain"] == r) & (mat["harm"] == c), "share"]
-            grid[i, j] = float(v.iloc[0]) if len(v) else 0.0
+    rows = pivot.index.tolist()
+    cols = pivot.columns.tolist()
+    grid = pivot.to_numpy()
 
-    fig, ax = plt.subplots(figsize=(max(8, 0.45*len(cols)), max(4.5, 0.45*len(rows))))
+    fig, ax = plt.subplots(figsize=_heatmap_figsize(len(rows), len(cols)), constrained_layout=False)
     cmap = cmap_white_to(HEAT_COLOR)
     vmax = max(1e-6, float(grid.max()))
     im = ax.imshow(grid, aspect="auto", cmap=cmap, vmin=0, vmax=vmax, interpolation="nearest")
-    ax.set_yticks(range(len(rows))); ax.set_yticklabels(rows)
-    ax.set_xticks(range(len(cols))); ax.set_xticklabels(wrap_labels(cols, 16), rotation=45, ha="right")
+
+    _style_heatmap_axes(ax, rows, cols)
+
+    # optional in-cell annotations; keep small to avoid clutter
+    ann_fs = 8 if len(rows) > 20 or len(cols) > 20 else 9
     for i in range(len(rows)):
         for j in range(len(cols)):
-            ax.text(j, i, f"{grid[i,j]*100:.0f}%", ha="center", va="center", color="#333333", fontsize=9)
+            ax.text(j, i, f"{grid[i,j]*100:.0f}%", ha="center", va="center", color="#333333", fontsize=ann_fs)
+
     ttl = "Harm Shares: Domain × Harm"
     if title_suffix: ttl += f" — {title_suffix}"
-    ax.set_title(ttl); fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="Share")
-    fig.tight_layout(); fig.savefig(FIG_DIR / "12_heatmap_domain_by_harm.png", bbox_inches="tight"); plt.close(fig)
+    ax.set_title(ttl)
+    cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.02, label="Share")
+    cbar.ax.tick_params(labelsize=9)
+
+    fig.savefig(FIG_DIR / "12_heatmap_domain_by_harm.png", bbox_inches="tight"); plt.close(fig)
 
 def plot_respondents_by_questionnaire(df: pd.DataFrame):
     """
@@ -254,7 +316,8 @@ def plot_stacked_shares_by_stakeholder(df: pd.DataFrame, top_n_stakeholders: int
     ax.set_title(ttl); ax.legend(ncol=2, bbox_to_anchor=(1.02, 1), loc="upper left"); ax.grid(axis="x")
     fig.tight_layout(); fig.savefig(FIG_DIR / "02_stacked_shares_by_stakeholder.png", bbox_inches="tight"); plt.close(fig)
 
-def plot_heatmap_harms_by_bias_type(df: pd.DataFrame, stakeholder: str, title_suffix: str = ""):
+def plot_heatmap_harms_by_bias_type(df: pd.DataFrame, stakeholder: str, LEVELS: dict, title_suffix: str = ""):
+    """Bias (rows) × Harm (cols) heatmap for a stakeholder, with all biases & harms shown."""
     dff = df[df["stakeholder_raw"].str.lower() == stakeholder.lower()].copy()
     if dff.empty: return
     dff["weighted_share"] = dff["vote_share"] * dff["total_votes"]
@@ -262,27 +325,33 @@ def plot_heatmap_harms_by_bias_type(df: pd.DataFrame, stakeholder: str, title_su
               .agg(weighted_share=("weighted_share","sum"), total=("total_votes","sum")))
     mat["share"] = mat["weighted_share"] / mat["total"]
 
-    rows = sorted(mat["bias_type"].unique().tolist())
-    cols = sorted(mat["harm"].unique().tolist())
-    grid = np.zeros((len(rows), len(cols)))
-    for i, r in enumerate(rows):
-        for j, c in enumerate(cols):
-            v = mat.loc[(mat["bias_type"] == r) & (mat["harm"] == c), "share"]
-            grid[i, j] = float(v.iloc[0]) if len(v) else 0.0
+    pivot = (mat.pivot(index="bias_type", columns="harm", values="share")
+                .reindex(index=LEVELS["bias_type"], columns=LEVELS["harm"])
+                .fillna(0.0))
 
-    fig, ax = plt.subplots(figsize=(max(8, 0.45*len(cols)), max(4, 0.5*len(rows))))
+    rows = pivot.index.tolist()
+    cols = pivot.columns.tolist()
+    grid = pivot.to_numpy()
+
+    fig, ax = plt.subplots(figsize=_heatmap_figsize(len(rows), len(cols)), constrained_layout=False)
     cmap = cmap_white_to(HEAT_COLOR)
-    vmax = max(1e-6, float(grid.max()))  # keep 0..max scale
+    vmax = max(1e-6, float(grid.max()))
     im = ax.imshow(grid, aspect="auto", cmap=cmap, vmin=0, vmax=vmax, interpolation="nearest")
-    ax.set_yticks(range(len(rows))); ax.set_yticklabels(rows)
-    ax.set_xticks(range(len(cols))); ax.set_xticklabels(wrap_labels(cols, 16), rotation=45, ha="right")
+
+    _style_heatmap_axes(ax, rows, cols)
+
+    ann_fs = 8 if len(rows) > 20 or len(cols) > 20 else 9
     for i in range(len(rows)):
         for j in range(len(cols)):
-            ax.text(j, i, f"{grid[i,j]*100:.0f}%", ha="center", va="center", color="#333333", fontsize=9)
+            ax.text(j, i, f"{grid[i,j]*100:.0f}%", ha="center", va="center", color="#333333", fontsize=ann_fs)
+
     ttl = f"{stakeholder}: Harm Shares by Bias Type"
     if title_suffix: ttl += f" — {title_suffix}"
-    ax.set_title(ttl); fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="Share")
-    fig.tight_layout(); fig.savefig(FIG_DIR / f"03_heatmap_harms_by_bias_type__{stakeholder.replace(' ','_')}.png", bbox_inches="tight"); plt.close(fig)
+    ax.set_title(ttl)
+    cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.02, label="Share")
+    cbar.ax.tick_params(labelsize=9)
+
+    fig.savefig(FIG_DIR / f"03_heatmap_harms_by_bias_type__{stakeholder.replace(' ','_')}.png", bbox_inches="tight"); plt.close(fig)
 
 def plot_top_harms_small_multiples(df: pd.DataFrame, title_suffix: str = "", top_k_harms: int = 6):
     if df.empty: return
@@ -369,45 +438,56 @@ def plot_responses_by_domain(df: pd.DataFrame):
     ax.set_xlabel("total votes"); ax.set_title("Responses by Domain")
     ax.grid(axis="x"); fig.tight_layout(); fig.savefig(FIG_DIR / "09_responses_by_domain.png", bbox_inches="tight"); plt.close(fig)
 
-def plot_heatmap_stakeholder_by_harm(df: pd.DataFrame, top_n_stakeholders: int = 8, top_m_harms: int = 10, title_suffix: str = ""):
-    """Stakeholder (rows) × Harm (cols) weighted-share heatmap; trimmed to top-N/M for readability."""
-    if df.empty: return
-    # top stakeholders by participation
-    st_tot = (df.groupby("stakeholder_raw", as_index=False)["total_votes"].sum()
-                .sort_values("total_votes", ascending=False).head(top_n_stakeholders))
-    keep_st = set(st_tot["stakeholder_raw"])
-    d = df[df["stakeholder_raw"].isin(keep_st)].copy()
+def plot_heatmap_stakeholder_by_harm(
+    df: pd.DataFrame,
+    LEVELS: dict,
+    title_suffix: str = "",
+    x_scale: float = 0.75  # <-- increase to make the x-axis even wider
+):
+    """Stakeholder (rows) × Harm (cols) heatmap with all categories shown (zeros if absent)."""
+    if df.empty:
+        return
+
+    d = df.copy()
     d["weighted_share"] = d["vote_share"] * d["total_votes"]
     mat = (d.groupby(["stakeholder_raw","harm"], as_index=False)
              .agg(weighted_share=("weighted_share","sum"), total=("total_votes","sum")))
     mat["share"] = mat["weighted_share"] / mat["total"]
 
-    # take top harms by overall share
-    top_h = (mat.groupby("harm", as_index=False)["weighted_share"].sum()
-                .sort_values("weighted_share", ascending=False).head(top_m_harms))["harm"].tolist()
-    mat = mat[mat["harm"].isin(top_h)].copy()
+    pivot = (mat.pivot(index="stakeholder_raw", columns="harm", values="share")
+                .reindex(index=LEVELS["stakeholder_raw"], columns=LEVELS["harm"])
+                .fillna(0.0))
 
-    rows = st_tot["stakeholder_raw"].tolist()
-    cols = sorted(top_h)
-    grid = np.zeros((len(rows), len(cols)))
-    for i, r in enumerate(rows):
-        for j, c in enumerate(cols):
-            v = mat.loc[(mat["stakeholder_raw"] == r) & (mat["harm"] == c), "share"]
-            grid[i, j] = float(v.iloc[0]) if len(v) else 0.0
+    rows = pivot.index.tolist()
+    cols = pivot.columns.tolist()
+    grid = pivot.to_numpy()
 
-    fig, ax = plt.subplots(figsize=(max(8, 0.45*len(cols)), max(4.5, 0.45*len(rows))))
+    # --- make the x-axis larger by increasing figure width per column ---
+    # width grows with number of columns; height scales with rows
+    width_inches = max(10, x_scale * len(cols))   # was ~0.45 * len(cols); bumped up with x_scale
+    height_inches = max(4.8, 0.45 * len(rows))
+    fig, ax = plt.subplots(figsize=(width_inches, height_inches), constrained_layout=False)
+
     cmap = cmap_white_to(HEAT_COLOR)
     vmax = max(1e-6, float(grid.max()))
     im = ax.imshow(grid, aspect="auto", cmap=cmap, vmin=0, vmax=vmax, interpolation="nearest")
-    ax.set_yticks(range(len(rows))); ax.set_yticklabels(rows)
-    ax.set_xticks(range(len(cols))); ax.set_xticklabels(wrap_labels(cols, 16), rotation=45, ha="right")
+
+    _style_heatmap_axes(ax, rows, cols)
+
+    ann_fs = 8 if len(rows) > 20 or len(cols) > 20 else 9
     for i in range(len(rows)):
         for j in range(len(cols)):
-            ax.text(j, i, f"{grid[i,j]*100:.0f}%", ha="center", va="center", color="#333333", fontsize=9)
-    ttl = f"Harm Shares: Stakeholder × Harm"
+            ax.text(j, i, f"{grid[i,j]*100:.0f}%", ha="center", va="center", color="#333333", fontsize=ann_fs)
+
+    ttl = "Harm Shares: Stakeholder × Harm"
     if title_suffix: ttl += f" — {title_suffix}"
-    ax.set_title(ttl); fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="Share")
-    fig.tight_layout(); fig.savefig(FIG_DIR / "10_heatmap_stakeholder_by_harm.png", bbox_inches="tight"); plt.close(fig)
+    ax.set_title(ttl)
+
+    cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.02, label="Share")
+    cbar.ax.tick_params(labelsize=9)
+
+    fig.savefig(FIG_DIR / "10_heatmap_stakeholder_by_harm.png", bbox_inches="tight")
+    plt.close(fig)
 
 # ------------------------ Main ------------------------
 
@@ -420,9 +500,9 @@ def main():
     parser.add_argument("--for_stakeholder", default=None, help='Create heatmap+domain-splits for this stakeholder_raw')
     parser.add_argument("--top_n_stakeholders", type=int, default=10, help="Top N stakeholders for stacked chart (default: 10)")
     parser.add_argument("--top_k_focus", type=int, default=4, help="How many stakeholders to auto-focus (heatmaps/domain splits) if none specified")
-    parser.add_argument("--top_m_harms", type=int, default=10, help="Columns in stakeholder×harm heatmap (default: 10)")
-    parser.add_argument("--top_n_domains", type=int, default=None,
-                        help="Top N domains to show in domain heatmap (default: all)")
+    # Kept for CLI stability (not used directly in this version of heatmaps)
+    parser.add_argument("--top_m_harms", type=int, default=10, help="(unused) Columns in stakeholder×harm heatmap")
+    parser.add_argument("--top_n_domains", type=int, default=None, help="(unused) Top N domains to show in domain heatmap")
 
     args = parser.parse_args()
 
@@ -436,6 +516,8 @@ def main():
     if args.stakeholder: suffix_bits.append(f"Stakeholder: {args.stakeholder}")
     suffix = " | ".join(suffix_bits)
 
+    LEVELS = get_levels(df)
+
     # Core figures
     plot_overall_harm_shares(df, title_suffix=suffix)
     plot_stacked_shares_by_stakeholder(df, top_n_stakeholders=args.top_n_stakeholders, title_suffix=suffix)
@@ -443,26 +525,23 @@ def main():
 
     # Domain-focused distributions
     plot_stacked_shares_by_domain(df, title_suffix=suffix)
-    plot_heatmap_domain_by_harm(df, top_n_domains=args.top_n_domains, top_m_harms=args.top_m_harms, title_suffix=suffix)
+    plot_heatmap_domain_by_harm(df, LEVELS, title_suffix=suffix)
 
     # Participation / coverage
-    plot_respondents_by_questionnaire(df)  # <-- people per questionnaire (single-choice assumption)
+    plot_respondents_by_questionnaire(df)
     plot_responses_by_stakeholder(df)
     plot_responses_by_bias_type(df)
     plot_responses_by_domain(df)
 
-    # Overview heatmap
-    plot_heatmap_stakeholder_by_harm(df, top_n_stakeholders=args.top_n_stakeholders,
-                                     top_m_harms=args.top_m_harms, title_suffix=suffix)
+    # Overview heatmap (all stakeholders/harms)
+    plot_heatmap_stakeholder_by_harm(df, LEVELS, title_suffix=suffix)
 
     # Focused heatmaps/domain splits
-    targets = []
     if args.for_stakeholder:
         targets = [args.for_stakeholder]
     elif args.stakeholder:
         targets = [args.stakeholder]
     else:
-        # auto-pick top-K stakeholders by total votes
         blocks = df.groupby(BLOCK_KEYS, as_index=False)["total_votes"].first()
         topk = (blocks.groupby("stakeholder_raw", as_index=False)["total_votes"].sum()
                   .sort_values("total_votes", ascending=False)
@@ -470,7 +549,7 @@ def main():
         targets = topk["stakeholder_raw"].tolist()
 
     for st in targets:
-        plot_heatmap_harms_by_bias_type(df, stakeholder=st, title_suffix=suffix)
+        plot_heatmap_harms_by_bias_type(df, stakeholder=st, LEVELS=LEVELS, title_suffix=suffix)
         plot_domain_splits_for_stakeholder(df, stakeholder=st, title_suffix=suffix)
 
 if __name__ == "__main__":
