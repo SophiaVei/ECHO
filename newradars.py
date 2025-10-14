@@ -175,14 +175,23 @@ def draw_all_radar_on_ax(
     ax.set_axisbelow(True)
     ax.grid(True, alpha=0.85, linewidth=GRID_LW)
 
+    # Keep legend order fixed, but plot Representation last so its line is on top
     bias_order = [b for b in BIAS_PLOT_ORDER if b in shares.index]
-    shares = shares.reindex(index=bias_order)
+    plot_order = [b for b in bias_order if b != "representation"]
+    if "representation" in bias_order:
+        plot_order.append("representation")
 
-    for i, b in enumerate(shares.index):
+    shares = shares.reindex(index=plot_order)
+
+    for i, b in enumerate(plot_order):
         vals = np.r_[shares.loc[b].values, shares.loc[b].values[0]]
         col = color_for_bias(b, i)
-        ax.plot(ang, vals, lw=RADAR_LW, color=col, zorder=3)
-        ax.fill(ang, vals, color=col, alpha=0.20, zorder=2)
+        # Boost zorder for representation so it sits above fills/lines
+        z_line = 4 if b == "representation" else 3
+        z_fill = 3 if b == "representation" else 2
+        ax.plot(ang, vals, lw=RADAR_LW, color=col, zorder=z_line)
+        ax.fill(ang, vals, color=col, alpha=0.20, zorder=z_fill)
+
 
     # radial ticks
     ax.set_yticks(yticks)
