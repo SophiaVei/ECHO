@@ -1,0 +1,36 @@
+bias_type,harm,observed,expected,z,p,stars
+evaluation,stereotyping,1,8.968,-3.515,0.00044,****
+measurement,denying self-identity,12,6.535,2.698,0.006966,***
+deployment,none,8,3.783,2.592,0.009532,***
+measurement,none,0,4.357,-2.548,0.010835,**
+evaluation,alienation,8,3.873,2.507,0.012171,**
+algorithmic,reifying categories,6,2.924,2.094,0.036269,**
+evaluation,none,7,3.669,2.071,0.038315,**
+measurement,alienation,1,4.599,-2.056,0.039785,**
+measurement,stereotyping,15,10.65,1.805,0.071099,*
+deployment,reifying categories,1,3.573,-1.622,0.104784,
+algorithmic,denying self-identity,2,4.643,-1.481,0.138483,
+deployment,erasure,5,2.943,1.414,0.157359,
+representation,none,1,3.096,-1.391,0.164205,
+deployment,denying self-identity,3,5.675,-1.389,0.164954,
+representation,demeaning,5,3.096,1.264,0.20615,
+representation,stereotyping,10,7.567,1.146,0.251894,
+algorithmic,stereotyping,10,7.567,1.146,0.251894,
+representation,erasure,1,2.408,-1.045,0.296201,
+evaluation,demeaning,5,3.669,0.828,0.407787,
+representation,alienation,2,3.268,-0.822,0.411119,
+measurement,demeaning,3,4.357,-0.793,0.427515,
+evaluation,denying self-identity,4,5.503,-0.789,0.430004,
+representation,denying self-identity,6,4.643,0.76,0.447036,
+algorithmic,none,2,3.096,-0.727,0.467076,
+algorithmic,demeaning,2,3.096,-0.727,0.467076,
+representation,reifying categories,2,2.924,-0.629,0.52961,
+deployment,alienation,5,3.994,0.604,0.545579,
+deployment,stereotyping,8,9.248,-0.544,0.586119,
+deployment,demeaning,3,3.783,-0.482,0.630045,
+evaluation,reifying categories,4,3.465,0.341,0.733011,
+algorithmic,erasure,2,2.408,-0.303,0.762261,
+measurement,erasure,3,3.389,-0.254,0.799474,
+algorithmic,alienation,3,3.268,-0.173,0.86228,
+evaluation,erasure,3,2.854,0.102,0.918884,
+measurement,reifying categories,4,4.115,-0.069,0.945189,
