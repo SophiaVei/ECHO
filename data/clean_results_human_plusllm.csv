@@ -258,15 +258,15 @@ questionnaire_id,stakeholder,is_group_level,bias_type,domain,harm_family,harm,vo
 11,patient,True,measurement,diagnosis,group,none,0,38,0.0,patient group
 11,patient,True,measurement,diagnosis,group,reifying categories,4,38,0.10526315789473684,patient group
 11,patient,True,measurement,diagnosis,group,stereotyping,15,38,0.39473684210526316,patient group
-11,patient,False,measurement,diagnosis,individual,alienation,3,30,0.1,patient
-11,patient,False,measurement,diagnosis,individual,diminished health and well-being,5,30,0.16666666666666666,patient
-11,patient,False,measurement,diagnosis,individual,economic loss,2,30,0.06666666666666667,patient
-11,patient,False,measurement,diagnosis,individual,increased labor,0,30,0.0,patient
-11,patient,False,measurement,diagnosis,individual,loss of agency or control,3,30,0.1,patient
-11,patient,False,measurement,diagnosis,individual,opportunity loss,9,30,0.3,patient
-11,patient,False,measurement,diagnosis,individual,privacy violation,1,30,0.03333333333333333,patient
-11,patient,False,measurement,diagnosis,individual,service or benefit loss,5,30,0.16666666666666666,patient
-11,patient,False,measurement,diagnosis,individual,technology-facilitated violence,2,30,0.06666666666666667,patient
+11,patient,False,measurement,diagnosis,individual,alienation,3,37,0.08108108108108109,patient
+11,patient,False,measurement,diagnosis,individual,diminished health and well-being,12,37,0.32432432432432434,patient
+11,patient,False,measurement,diagnosis,individual,economic loss,2,37,0.05405405405405406,patient
+11,patient,False,measurement,diagnosis,individual,increased labor,0,37,0.0,patient
+11,patient,False,measurement,diagnosis,individual,loss of agency or control,3,37,0.08108108108108109,patient
+11,patient,False,measurement,diagnosis,individual,opportunity loss,9,37,0.24324324324324326,patient
+11,patient,False,measurement,diagnosis,individual,privacy violation,1,37,0.02702702702702703,patient
+11,patient,False,measurement,diagnosis,individual,service or benefit loss,5,37,0.13513513513513514,patient
+11,patient,False,measurement,diagnosis,individual,technology-facilitated violence,2,37,0.05405405405405406,patient
 12,developer,False,algorithmic,diagnosis,individual,alienation,4,33,0.12121212121212122,developer
 12,developer,False,algorithmic,diagnosis,individual,diminished health and well-being,4,33,0.12121212121212122,developer
 12,developer,False,algorithmic,diagnosis,individual,economic loss,0,33,0.0,developer
