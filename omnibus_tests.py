@@ -96,7 +96,7 @@ def analyze(df: pd.DataFrame) -> pd.DataFrame:
 
 def main():
     ap = argparse.ArgumentParser(description="Omnibus χ² tests per (domain × stakeholder_raw).")
-    ap.add_argument("--in", dest="in_path", default="data/clean_results_human.csv",
+    ap.add_argument("--in", dest="in_path", default="data/clean_results_human_plusllm.csv",
                     help="Input CSV path (clean_results_human.csv)")
     ap.add_argument("--out", dest="out_path", default="tables_py/omnibus_domain_stakeholder.csv",
                     help="Output CSV path for omnibus results")

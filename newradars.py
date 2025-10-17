@@ -21,7 +21,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-DATA_DEFAULT = Path("data/clean_results_human.csv")
+DATA_DEFAULT = Path("data/clean_results_human_plusllm.csv")
 OUT_DIR_DEFAULT = Path("radars_pub")
 REQUIRED = {"questionnaire_id", "stakeholder_raw", "bias_type", "domain", "harm", "votes"}
 
@@ -107,6 +107,10 @@ def radar_angles(n):
     ang = np.linspace(0, 2*np.pi, n, endpoint=False)
     return np.r_[ang, ang[0]]
 
+def percent_ticks_fixed(top=0.50, step=0.10):
+    # Always show ticks at 10%, 20%, ..., up to `top` (default 50%)
+    return np.arange(step, top + 1e-9, step), float(top)
+
 def build_ctab(df_cell: pd.DataFrame) -> pd.DataFrame:
     ctab = pd.pivot_table(
         df_cell,
@@ -167,9 +171,10 @@ def draw_all_radar_on_ax(
     ang = radar_angles(len(harms))
     xticks = wrap_labels(harms, width=14)
 
-    data_max = float(np.nanmax(shares.values))
-    r_target = max(0.20, data_max * 1.08)
-    yticks, ytop = percent_ticks_auto_10(r_target, step=0.10, cap=0.60)
+    # Force all radars to 0–50% radius with 10% rings
+    yticks, ytop = percent_ticks_fixed(top=0.50, step=0.10)
+    ax.set_ylim(0, ytop)
+
     ax.set_ylim(0, ytop)
 
     ax.set_axisbelow(True)
@@ -227,9 +232,9 @@ def save_single_radar(out_dir: Path, domain: str, who: str, ctab: pd.DataFrame,
         radial_tick_fs=single_radial_tick_fs
     )
 
-    fig.text(0.02, title_y, f"{domain} — {who}",
+    """fig.text(0.02, title_y, f"{domain} — {who}",
              fontsize=SECTION_TITLE_FS, fontweight="bold",
-             ha="left", va="bottom")
+             ha="left", va="bottom")"""
 
     # Legend pushed further right
     legend_handles = []
