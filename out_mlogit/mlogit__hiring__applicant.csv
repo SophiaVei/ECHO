@@ -1,0 +1,33 @@
+domain,stakeholder_raw,n_votes,harm,harm_ref,bias_type,bias_ref,coef,se,z,p,OR,ci_low,ci_high,stars,converged
+hiring,applicant,177,alienation,opportunity loss,algorithmic,representation,,,,,,,,,False
+hiring,applicant,177,alienation,opportunity loss,deployment,representation,,,,,,,,,False
+hiring,applicant,177,alienation,opportunity loss,evaluation,representation,,,,,,,,,False
+hiring,applicant,177,alienation,opportunity loss,measurement,representation,,,,,,,,,False
+hiring,applicant,177,diminished health and well-being,opportunity loss,algorithmic,representation,,,,,,,,,False
+hiring,applicant,177,diminished health and well-being,opportunity loss,deployment,representation,,,,,,,,,False
+hiring,applicant,177,diminished health and well-being,opportunity loss,evaluation,representation,,,,,,,,,False
+hiring,applicant,177,diminished health and well-being,opportunity loss,measurement,representation,,,,,,,,,False
+hiring,applicant,177,economic loss,opportunity loss,algorithmic,representation,,,,,,,,,False
+hiring,applicant,177,economic loss,opportunity loss,deployment,representation,,,,,,,,,False
+hiring,applicant,177,economic loss,opportunity loss,evaluation,representation,,,,,,,,,False
+hiring,applicant,177,economic loss,opportunity loss,measurement,representation,,,,,,,,,False
+hiring,applicant,177,increased labor,opportunity loss,algorithmic,representation,,,,,,,,,False
+hiring,applicant,177,increased labor,opportunity loss,deployment,representation,,,,,,,,,False
+hiring,applicant,177,increased labor,opportunity loss,evaluation,representation,,,,,,,,,False
+hiring,applicant,177,increased labor,opportunity loss,measurement,representation,,,,,,,,,False
+hiring,applicant,177,loss of agency or control,opportunity loss,algorithmic,representation,,,,,,,,,False
+hiring,applicant,177,loss of agency or control,opportunity loss,deployment,representation,,,,,,,,,False
+hiring,applicant,177,loss of agency or control,opportunity loss,evaluation,representation,,,,,,,,,False
+hiring,applicant,177,loss of agency or control,opportunity loss,measurement,representation,,,,,,,,,False
+hiring,applicant,177,privacy violation,opportunity loss,algorithmic,representation,,,,,,,,,False
+hiring,applicant,177,privacy violation,opportunity loss,deployment,representation,,,,,,,,,False
+hiring,applicant,177,privacy violation,opportunity loss,evaluation,representation,,,,,,,,,False
+hiring,applicant,177,privacy violation,opportunity loss,measurement,representation,,,,,,,,,False
+hiring,applicant,177,service or benefit loss,opportunity loss,algorithmic,representation,,,,,,,,,False
+hiring,applicant,177,service or benefit loss,opportunity loss,deployment,representation,,,,,,,,,False
+hiring,applicant,177,service or benefit loss,opportunity loss,evaluation,representation,,,,,,,,,False
+hiring,applicant,177,service or benefit loss,opportunity loss,measurement,representation,,,,,,,,,False
+hiring,applicant,177,technology-facilitated violence,opportunity loss,algorithmic,representation,,,,,,,,,False
+hiring,applicant,177,technology-facilitated violence,opportunity loss,deployment,representation,,,,,,,,,False
+hiring,applicant,177,technology-facilitated violence,opportunity loss,evaluation,representation,,,,,,,,,False
+hiring,applicant,177,technology-facilitated violence,opportunity loss,measurement,representation,,,,,,,,,False

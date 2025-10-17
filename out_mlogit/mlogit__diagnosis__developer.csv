@@ -1,0 +1,33 @@
+domain,stakeholder_raw,n_votes,harm,harm_ref,bias_type,bias_ref,coef,se,z,p,OR,ci_low,ci_high,stars,converged
+diagnosis,developer,167,alienation,diminished health and well-being,algorithmic,deployment,,,,,,,,,True
+diagnosis,developer,167,alienation,diminished health and well-being,evaluation,deployment,,,,,,,,,True
+diagnosis,developer,167,alienation,diminished health and well-being,measurement,deployment,,,,,,,,,True
+diagnosis,developer,167,alienation,diminished health and well-being,representation,deployment,,,,,,,,,True
+diagnosis,developer,167,economic loss,diminished health and well-being,algorithmic,deployment,,,,,,,,,True
+diagnosis,developer,167,economic loss,diminished health and well-being,evaluation,deployment,,,,,,,,,True
+diagnosis,developer,167,economic loss,diminished health and well-being,measurement,deployment,,,,,,,,,True
+diagnosis,developer,167,economic loss,diminished health and well-being,representation,deployment,,,,,,,,,True
+diagnosis,developer,167,increased labor,diminished health and well-being,algorithmic,deployment,,,,,,,,,True
+diagnosis,developer,167,increased labor,diminished health and well-being,evaluation,deployment,,,,,,,,,True
+diagnosis,developer,167,increased labor,diminished health and well-being,measurement,deployment,,,,,,,,,True
+diagnosis,developer,167,increased labor,diminished health and well-being,representation,deployment,,,,,,,,,True
+diagnosis,developer,167,loss of agency or control,diminished health and well-being,algorithmic,deployment,,,,,,,,,True
+diagnosis,developer,167,loss of agency or control,diminished health and well-being,evaluation,deployment,,,,,,,,,True
+diagnosis,developer,167,loss of agency or control,diminished health and well-being,measurement,deployment,,,,,,,,,True
+diagnosis,developer,167,loss of agency or control,diminished health and well-being,representation,deployment,,,,,,,,,True
+diagnosis,developer,167,opportunity loss,diminished health and well-being,algorithmic,deployment,,,,,,,,,True
+diagnosis,developer,167,opportunity loss,diminished health and well-being,evaluation,deployment,,,,,,,,,True
+diagnosis,developer,167,opportunity loss,diminished health and well-being,measurement,deployment,,,,,,,,,True
+diagnosis,developer,167,opportunity loss,diminished health and well-being,representation,deployment,,,,,,,,,True
+diagnosis,developer,167,privacy violation,diminished health and well-being,algorithmic,deployment,,,,,,,,,True
+diagnosis,developer,167,privacy violation,diminished health and well-being,evaluation,deployment,,,,,,,,,True
+diagnosis,developer,167,privacy violation,diminished health and well-being,measurement,deployment,,,,,,,,,True
+diagnosis,developer,167,privacy violation,diminished health and well-being,representation,deployment,,,,,,,,,True
+diagnosis,developer,167,service or benefit loss,diminished health and well-being,algorithmic,deployment,,,,,,,,,True
+diagnosis,developer,167,service or benefit loss,diminished health and well-being,evaluation,deployment,,,,,,,,,True
+diagnosis,developer,167,service or benefit loss,diminished health and well-being,measurement,deployment,,,,,,,,,True
+diagnosis,developer,167,service or benefit loss,diminished health and well-being,representation,deployment,,,,,,,,,True
+diagnosis,developer,167,technology-facilitated violence,diminished health and well-being,algorithmic,deployment,,,,,,,,,True
+diagnosis,developer,167,technology-facilitated violence,diminished health and well-being,evaluation,deployment,,,,,,,,,True
+diagnosis,developer,167,technology-facilitated violence,diminished health and well-being,measurement,deployment,,,,,,,,,True
+diagnosis,developer,167,technology-facilitated violence,diminished health and well-being,representation,deployment,,,,,,,,,True

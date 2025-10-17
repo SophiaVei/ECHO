@@ -1,0 +1,31 @@
+Stakeholder,Bias_A,Bias_B,Harm,A_share,B_share,Δ_share,p,q
+applicant,algorithmic,deployment,diminished health and well-being,0.03,0.188,-0.157,0.0539,0.3145
+applicant,algorithmic,evaluation,diminished health and well-being,0.03,0.206,-0.176,0.0544,0.2448
+applicant,algorithmic,measurement,diminished health and well-being,0.03,0.242,-0.212,0.0268,0.1208
+applicant,algorithmic,measurement,service or benefit loss,0.242,0.03,0.212,0.0268,0.1208
+applicant,deployment,evaluation,economic loss,0.062,0.294,-0.232,0.0235,0.1056
+applicant,deployment,measurement,service or benefit loss,0.188,0.03,0.157,0.0539,0.4853
+applicant,evaluation,measurement,economic loss,0.294,0.061,0.234,0.023,0.2072
+applicant,evaluation,representation,service or benefit loss,0.0,0.171,-0.171,0.0248,0.2228
+applicant,evaluation,representation,economic loss,0.294,0.114,0.18,0.0784,0.3527
+applicant_group,algorithmic,evaluation,none,0.179,0.03,0.148,0.0851,0.1611
+applicant_group,algorithmic,evaluation,stereotyping,0.179,0.03,0.148,0.0851,0.1611
+applicant_group,algorithmic,evaluation,group alienation,0.071,0.242,-0.171,0.0921,0.1611
+applicant_group,deployment,evaluation,reifying categories,0.071,0.303,-0.232,0.0278,0.1435
+applicant_group,deployment,evaluation,stereotyping,0.214,0.03,0.184,0.041,0.1435
+applicant_group,deployment,evaluation,erasure,0.179,0.03,0.148,0.0851,0.149
+applicant_group,deployment,evaluation,none,0.179,0.03,0.148,0.0851,0.149
+applicant_group,evaluation,measurement,stereotyping,0.03,0.167,-0.136,0.0943,0.3299
+applicant_group,evaluation,representation,erasure,0.03,0.194,-0.163,0.0502,0.1437
+applicant_group,evaluation,representation,reifying categories,0.303,0.097,0.206,0.0616,0.1437
+applicant_group,evaluation,representation,group alienation,0.242,0.065,0.178,0.0833,0.1458
+company,algorithmic,deployment,opportunity loss,0.5,0.25,0.25,0.0617,0.5553
+company,algorithmic,evaluation,increased labor,0.0,0.156,-0.156,0.0549,0.4938
+company,algorithmic,measurement,opportunity loss,0.5,0.217,0.283,0.0467,0.3548
+company,algorithmic,measurement,diminished health and well-being,0.036,0.217,-0.182,0.0788,0.3548
+company,algorithmic,representation,increased labor,0.0,0.167,-0.167,0.031,0.279
+company,measurement,representation,service or benefit loss,0.304,0.111,0.193,0.0891,0.5858
+developer,algorithmic,representation,alienation,0.061,0.226,-0.165,0.0776,0.4747
+developer,deployment,representation,loss of agency or control,0.267,0.032,0.234,0.0125,0.1078
+developer,deployment,representation,economic loss,0.167,0.0,0.167,0.024,0.1078
+developer,measurement,representation,economic loss,0.176,0.0,0.176,0.0252,0.2268

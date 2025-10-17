@@ -1,0 +1,33 @@
+domain,stakeholder_raw,n_votes,harm,harm_ref,bias_type,bias_ref,coef,se,z,p,OR,ci_low,ci_high,stars,converged
+hiring,developer,170,alienation,opportunity loss,algorithmic,measurement,,,,,,,,,True
+hiring,developer,170,alienation,opportunity loss,deployment,measurement,,,,,,,,,True
+hiring,developer,170,alienation,opportunity loss,evaluation,measurement,,,,,,,,,True
+hiring,developer,170,alienation,opportunity loss,representation,measurement,,,,,,,,,True
+hiring,developer,170,diminished health and well-being,opportunity loss,algorithmic,measurement,,,,,,,,,True
+hiring,developer,170,diminished health and well-being,opportunity loss,deployment,measurement,,,,,,,,,True
+hiring,developer,170,diminished health and well-being,opportunity loss,evaluation,measurement,,,,,,,,,True
+hiring,developer,170,diminished health and well-being,opportunity loss,representation,measurement,,,,,,,,,True
+hiring,developer,170,economic loss,opportunity loss,algorithmic,measurement,,,,,,,,,True
+hiring,developer,170,economic loss,opportunity loss,deployment,measurement,,,,,,,,,True
+hiring,developer,170,economic loss,opportunity loss,evaluation,measurement,,,,,,,,,True
+hiring,developer,170,economic loss,opportunity loss,representation,measurement,,,,,,,,,True
+hiring,developer,170,increased labor,opportunity loss,algorithmic,measurement,,,,,,,,,True
+hiring,developer,170,increased labor,opportunity loss,deployment,measurement,,,,,,,,,True
+hiring,developer,170,increased labor,opportunity loss,evaluation,measurement,,,,,,,,,True
+hiring,developer,170,increased labor,opportunity loss,representation,measurement,,,,,,,,,True
+hiring,developer,170,loss of agency or control,opportunity loss,algorithmic,measurement,,,,,,,,,True
+hiring,developer,170,loss of agency or control,opportunity loss,deployment,measurement,,,,,,,,,True
+hiring,developer,170,loss of agency or control,opportunity loss,evaluation,measurement,,,,,,,,,True
+hiring,developer,170,loss of agency or control,opportunity loss,representation,measurement,,,,,,,,,True
+hiring,developer,170,privacy violation,opportunity loss,algorithmic,measurement,,,,,,,,,True
+hiring,developer,170,privacy violation,opportunity loss,deployment,measurement,,,,,,,,,True
+hiring,developer,170,privacy violation,opportunity loss,evaluation,measurement,,,,,,,,,True
+hiring,developer,170,privacy violation,opportunity loss,representation,measurement,,,,,,,,,True
+hiring,developer,170,service or benefit loss,opportunity loss,algorithmic,measurement,,,,,,,,,True
+hiring,developer,170,service or benefit loss,opportunity loss,deployment,measurement,,,,,,,,,True
+hiring,developer,170,service or benefit loss,opportunity loss,evaluation,measurement,,,,,,,,,True
+hiring,developer,170,service or benefit loss,opportunity loss,representation,measurement,,,,,,,,,True
+hiring,developer,170,technology-facilitated violence,opportunity loss,algorithmic,measurement,,,,,,,,,True
+hiring,developer,170,technology-facilitated violence,opportunity loss,deployment,measurement,,,,,,,,,True
+hiring,developer,170,technology-facilitated violence,opportunity loss,evaluation,measurement,,,,,,,,,True
+hiring,developer,170,technology-facilitated violence,opportunity loss,representation,measurement,,,,,,,,,True

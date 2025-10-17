@@ -1,0 +1,25 @@
+domain,stakeholder_raw,n_votes,harm,harm_ref,bias_type,bias_ref,coef,se,z,p,OR,ci_low,ci_high,stars,converged
+hiring,applicant group,160,alienation,demeaning,algorithmic,evaluation,,,,,,,,,True
+hiring,applicant group,160,alienation,demeaning,deployment,evaluation,,,,,,,,,True
+hiring,applicant group,160,alienation,demeaning,measurement,evaluation,,,,,,,,,True
+hiring,applicant group,160,alienation,demeaning,representation,evaluation,,,,,,,,,True
+hiring,applicant group,160,denying self-identity,demeaning,algorithmic,evaluation,,,,,,,,,True
+hiring,applicant group,160,denying self-identity,demeaning,deployment,evaluation,,,,,,,,,True
+hiring,applicant group,160,denying self-identity,demeaning,measurement,evaluation,,,,,,,,,True
+hiring,applicant group,160,denying self-identity,demeaning,representation,evaluation,,,,,,,,,True
+hiring,applicant group,160,erasure,demeaning,algorithmic,evaluation,,,,,,,,,True
+hiring,applicant group,160,erasure,demeaning,deployment,evaluation,,,,,,,,,True
+hiring,applicant group,160,erasure,demeaning,measurement,evaluation,,,,,,,,,True
+hiring,applicant group,160,erasure,demeaning,representation,evaluation,,,,,,,,,True
+hiring,applicant group,160,none,demeaning,algorithmic,evaluation,,,,,,,,,True
+hiring,applicant group,160,none,demeaning,deployment,evaluation,,,,,,,,,True
+hiring,applicant group,160,none,demeaning,measurement,evaluation,,,,,,,,,True
+hiring,applicant group,160,none,demeaning,representation,evaluation,,,,,,,,,True
+hiring,applicant group,160,reifying categories,demeaning,algorithmic,evaluation,,,,,,,,,True
+hiring,applicant group,160,reifying categories,demeaning,deployment,evaluation,,,,,,,,,True
+hiring,applicant group,160,reifying categories,demeaning,measurement,evaluation,,,,,,,,,True
+hiring,applicant group,160,reifying categories,demeaning,representation,evaluation,,,,,,,,,True
+hiring,applicant group,160,stereotyping,demeaning,algorithmic,evaluation,,,,,,,,,True
+hiring,applicant group,160,stereotyping,demeaning,deployment,evaluation,,,,,,,,,True
+hiring,applicant group,160,stereotyping,demeaning,measurement,evaluation,,,,,,,,,True
+hiring,applicant group,160,stereotyping,demeaning,representation,evaluation,,,,,,,,,True

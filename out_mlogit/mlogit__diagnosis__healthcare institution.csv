@@ -1,0 +1,29 @@
+domain,stakeholder_raw,n_votes,harm,harm_ref,bias_type,bias_ref,coef,se,z,p,OR,ci_low,ci_high,stars,converged
+diagnosis,healthcare institution,169,alienation,diminished health and well-being,deployment,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,alienation,diminished health and well-being,evaluation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,alienation,diminished health and well-being,measurement,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,alienation,diminished health and well-being,representation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,economic loss,diminished health and well-being,deployment,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,economic loss,diminished health and well-being,evaluation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,economic loss,diminished health and well-being,measurement,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,economic loss,diminished health and well-being,representation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,increased labor,diminished health and well-being,deployment,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,increased labor,diminished health and well-being,evaluation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,increased labor,diminished health and well-being,measurement,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,increased labor,diminished health and well-being,representation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,loss of agency or control,diminished health and well-being,deployment,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,loss of agency or control,diminished health and well-being,evaluation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,loss of agency or control,diminished health and well-being,measurement,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,loss of agency or control,diminished health and well-being,representation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,opportunity loss,diminished health and well-being,deployment,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,opportunity loss,diminished health and well-being,evaluation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,opportunity loss,diminished health and well-being,measurement,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,opportunity loss,diminished health and well-being,representation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,privacy violation,diminished health and well-being,deployment,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,privacy violation,diminished health and well-being,evaluation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,privacy violation,diminished health and well-being,measurement,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,privacy violation,diminished health and well-being,representation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,service or benefit loss,diminished health and well-being,deployment,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,service or benefit loss,diminished health and well-being,evaluation,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,service or benefit loss,diminished health and well-being,measurement,algorithmic,,,,,,,,,False
+diagnosis,healthcare institution,169,service or benefit loss,diminished health and well-being,representation,algorithmic,,,,,,,,,False

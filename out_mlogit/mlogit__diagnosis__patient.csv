@@ -1,0 +1,33 @@
+domain,stakeholder_raw,n_votes,harm,harm_ref,bias_type,bias_ref,coef,se,z,p,OR,ci_low,ci_high,stars,converged
+diagnosis,patient,160,alienation,diminished health and well-being,algorithmic,evaluation,,,,,,,,,True
+diagnosis,patient,160,alienation,diminished health and well-being,deployment,evaluation,,,,,,,,,True
+diagnosis,patient,160,alienation,diminished health and well-being,measurement,evaluation,,,,,,,,,True
+diagnosis,patient,160,alienation,diminished health and well-being,representation,evaluation,,,,,,,,,True
+diagnosis,patient,160,economic loss,diminished health and well-being,algorithmic,evaluation,,,,,,,,,True
+diagnosis,patient,160,economic loss,diminished health and well-being,deployment,evaluation,,,,,,,,,True
+diagnosis,patient,160,economic loss,diminished health and well-being,measurement,evaluation,,,,,,,,,True
+diagnosis,patient,160,economic loss,diminished health and well-being,representation,evaluation,,,,,,,,,True
+diagnosis,patient,160,increased labor,diminished health and well-being,algorithmic,evaluation,,,,,,,,,True
+diagnosis,patient,160,increased labor,diminished health and well-being,deployment,evaluation,,,,,,,,,True
+diagnosis,patient,160,increased labor,diminished health and well-being,measurement,evaluation,,,,,,,,,True
+diagnosis,patient,160,increased labor,diminished health and well-being,representation,evaluation,,,,,,,,,True
+diagnosis,patient,160,loss of agency or control,diminished health and well-being,algorithmic,evaluation,,,,,,,,,True
+diagnosis,patient,160,loss of agency or control,diminished health and well-being,deployment,evaluation,,,,,,,,,True
+diagnosis,patient,160,loss of agency or control,diminished health and well-being,measurement,evaluation,,,,,,,,,True
+diagnosis,patient,160,loss of agency or control,diminished health and well-being,representation,evaluation,,,,,,,,,True
+diagnosis,patient,160,opportunity loss,diminished health and well-being,algorithmic,evaluation,,,,,,,,,True
+diagnosis,patient,160,opportunity loss,diminished health and well-being,deployment,evaluation,,,,,,,,,True
+diagnosis,patient,160,opportunity loss,diminished health and well-being,measurement,evaluation,,,,,,,,,True
+diagnosis,patient,160,opportunity loss,diminished health and well-being,representation,evaluation,,,,,,,,,True
+diagnosis,patient,160,privacy violation,diminished health and well-being,algorithmic,evaluation,,,,,,,,,True
+diagnosis,patient,160,privacy violation,diminished health and well-being,deployment,evaluation,,,,,,,,,True
+diagnosis,patient,160,privacy violation,diminished health and well-being,measurement,evaluation,,,,,,,,,True
+diagnosis,patient,160,privacy violation,diminished health and well-being,representation,evaluation,,,,,,,,,True
+diagnosis,patient,160,service or benefit loss,diminished health and well-being,algorithmic,evaluation,,,,,,,,,True
+diagnosis,patient,160,service or benefit loss,diminished health and well-being,deployment,evaluation,,,,,,,,,True
+diagnosis,patient,160,service or benefit loss,diminished health and well-being,measurement,evaluation,,,,,,,,,True
+diagnosis,patient,160,service or benefit loss,diminished health and well-being,representation,evaluation,,,,,,,,,True
+diagnosis,patient,160,technology-facilitated violence,diminished health and well-being,algorithmic,evaluation,,,,,,,,,True
+diagnosis,patient,160,technology-facilitated violence,diminished health and well-being,deployment,evaluation,,,,,,,,,True
+diagnosis,patient,160,technology-facilitated violence,diminished health and well-being,measurement,evaluation,,,,,,,,,True
+diagnosis,patient,160,technology-facilitated violence,diminished health and well-being,representation,evaluation,,,,,,,,,True

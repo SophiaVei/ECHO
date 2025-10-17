@@ -1,0 +1,25 @@
+domain,stakeholder_raw,n_votes,harm,harm_ref,bias_type,bias_ref,coef,se,z,p,OR,ci_low,ci_high,stars,converged
+diagnosis,patient group,150,alienation,stereotyping,algorithmic,measurement,,,,,,,,,False
+diagnosis,patient group,150,alienation,stereotyping,deployment,measurement,,,,,,,,,False
+diagnosis,patient group,150,alienation,stereotyping,evaluation,measurement,,,,,,,,,False
+diagnosis,patient group,150,alienation,stereotyping,representation,measurement,,,,,,,,,False
+diagnosis,patient group,150,demeaning,stereotyping,algorithmic,measurement,,,,,,,,,False
+diagnosis,patient group,150,demeaning,stereotyping,deployment,measurement,,,,,,,,,False
+diagnosis,patient group,150,demeaning,stereotyping,evaluation,measurement,,,,,,,,,False
+diagnosis,patient group,150,demeaning,stereotyping,representation,measurement,,,,,,,,,False
+diagnosis,patient group,150,denying self-identity,stereotyping,algorithmic,measurement,,,,,,,,,False
+diagnosis,patient group,150,denying self-identity,stereotyping,deployment,measurement,,,,,,,,,False
+diagnosis,patient group,150,denying self-identity,stereotyping,evaluation,measurement,,,,,,,,,False
+diagnosis,patient group,150,denying self-identity,stereotyping,representation,measurement,,,,,,,,,False
+diagnosis,patient group,150,erasure,stereotyping,algorithmic,measurement,,,,,,,,,False
+diagnosis,patient group,150,erasure,stereotyping,deployment,measurement,,,,,,,,,False
+diagnosis,patient group,150,erasure,stereotyping,evaluation,measurement,,,,,,,,,False
+diagnosis,patient group,150,erasure,stereotyping,representation,measurement,,,,,,,,,False
+diagnosis,patient group,150,none,stereotyping,algorithmic,measurement,,,,,,,,,False
+diagnosis,patient group,150,none,stereotyping,deployment,measurement,,,,,,,,,False
+diagnosis,patient group,150,none,stereotyping,evaluation,measurement,,,,,,,,,False
+diagnosis,patient group,150,none,stereotyping,representation,measurement,,,,,,,,,False
+diagnosis,patient group,150,reifying categories,stereotyping,algorithmic,measurement,,,,,,,,,False
+diagnosis,patient group,150,reifying categories,stereotyping,deployment,measurement,,,,,,,,,False
+diagnosis,patient group,150,reifying categories,stereotyping,evaluation,measurement,,,,,,,,,False
+diagnosis,patient group,150,reifying categories,stereotyping,representation,measurement,,,,,,,,,False

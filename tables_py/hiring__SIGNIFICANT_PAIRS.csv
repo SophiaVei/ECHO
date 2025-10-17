@@ -1,0 +1,6 @@
+Stakeholder,Bias_A,Bias_B,Harm,A_share,B_share,Δ_share,p,q
+applicant,algorithmic,evaluation,service or benefit loss,0.242,0.0,0.242,0.0021,0.0192
+applicant,deployment,evaluation,service or benefit loss,0.188,0.0,0.188,0.01,0.0898
+applicant_group,algorithmic,evaluation,reifying categories,0.036,0.303,-0.267,0.0077,0.0542
+applicant_group,evaluation,measurement,reifying categories,0.303,0.033,0.27,0.0065,0.0457
+applicant_group,evaluation,representation,stereotyping,0.03,0.258,-0.228,0.0116,0.0811

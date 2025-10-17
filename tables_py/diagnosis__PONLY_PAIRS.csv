@@ -1,0 +1,24 @@
+Stakeholder,Bias_A,Bias_B,Harm,A_share,B_share,Δ_share,p,q
+developer,algorithmic,measurement,service or benefit loss,0.29,0.069,0.221,0.0434,0.3203
+developer,algorithmic,measurement,diminished health and well-being,0.097,0.276,-0.179,0.0997,0.3203
+developer,algorithmic,representation,loss of agency or control,0.226,0.031,0.195,0.0265,0.1436
+developer,algorithmic,representation,diminished health and well-being,0.097,0.344,-0.247,0.0319,0.1436
+developer,deployment,evaluation,loss of agency or control,0.176,0.0,0.176,0.0252,0.2268
+developer,deployment,measurement,alienation,0.206,0.034,0.171,0.0598,0.538
+developer,measurement,representation,loss of agency or control,0.207,0.031,0.176,0.0461,0.4152
+healthcare_institution,algorithmic,deployment,economic loss,0.028,0.192,-0.165,0.074,0.5916
+healthcare_institution,deployment,evaluation,service or benefit loss,0.038,0.229,-0.19,0.0653,0.5004
+healthcare_institution,deployment,measurement,service or benefit loss,0.038,0.219,-0.18,0.0629,0.3203
+healthcare_institution,deployment,measurement,economic loss,0.192,0.031,0.161,0.0801,0.3203
+patient,algorithmic,evaluation,service or benefit loss,0.074,0.265,-0.191,0.092,0.3675
+patient,deployment,evaluation,alienation,0.16,0.0,0.16,0.0278,0.152
+patient,deployment,evaluation,service or benefit loss,0.04,0.265,-0.225,0.0338,0.152
+patient,deployment,evaluation,increased labor,0.12,0.0,0.12,0.0707,0.2122
+patient,deployment,representation,alienation,0.16,0.0,0.16,0.0432,0.3888
+patient,evaluation,measurement,alienation,0.0,0.111,-0.111,0.0813,0.7315
+patient_group,algorithmic,evaluation,group alienation,0.12,0.391,-0.271,0.0458,0.1069
+patient_group,algorithmic,measurement,denying self-identity,0.08,0.321,-0.241,0.0432,0.3021
+patient_group,deployment,evaluation,stereotyping,0.304,0.043,0.261,0.047,0.1644
+patient_group,deployment,evaluation,demeaning,0.13,0.391,-0.261,0.0909,0.1899
+patient_group,deployment,measurement,none,0.174,0.0,0.174,0.0354,0.248
+patient_group,evaluation,representation,denying self-identity,0.043,0.24,-0.197,0.0995,0.1855

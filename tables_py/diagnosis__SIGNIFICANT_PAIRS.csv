@@ -1,0 +1,14 @@
+Stakeholder,Bias_A,Bias_B,Harm,A_share,B_share,Δ_share,p,q
+developer,algorithmic,evaluation,loss of agency or control,0.226,0.0,0.226,0.0107,0.0962
+developer,evaluation,measurement,loss of agency or control,0.0,0.207,-0.207,0.0095,0.0854
+patient,algorithmic,evaluation,alienation,0.222,0.0,0.222,0.0053,0.048
+patient,algorithmic,representation,alienation,0.222,0.0,0.222,0.0102,0.0919
+patient_group,algorithmic,evaluation,stereotyping,0.36,0.043,0.317,0.011,0.055
+patient_group,algorithmic,evaluation,demeaning,0.08,0.391,-0.311,0.0157,0.055
+patient_group,deployment,evaluation,group alienation,0.043,0.391,-0.348,0.0098,0.0685
+patient_group,evaluation,measurement,group alienation,0.391,0.036,0.356,0.0029,0.0204
+patient_group,evaluation,measurement,stereotyping,0.043,0.393,-0.349,0.0063,0.022
+patient_group,evaluation,measurement,demeaning,0.391,0.071,0.32,0.014,0.0268
+patient_group,evaluation,measurement,denying self-identity,0.043,0.321,-0.278,0.0153,0.0268
+patient_group,evaluation,representation,stereotyping,0.043,0.4,-0.357,0.0049,0.034
+patient_group,evaluation,representation,group alienation,0.391,0.08,0.311,0.0157,0.055
