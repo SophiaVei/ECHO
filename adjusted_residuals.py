@@ -51,6 +51,18 @@ import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+# ------------------------- Preferred orders (match radar script) -------------------------
+PREFERRED_HARMS_ORDER = [
+    "opportunity loss", "economic loss",
+    "alienation", "increased labor", "service or benefit loss",
+    "loss of agency or control", "technology-facilitated violence",
+    "diminished health and well-being", "privacy violation",
+    "stereotyping", "demeaning", "erasure", "group alienation",
+    "denying self-identity", "reifying categories",
+]
+
+BIAS_PLOT_ORDER = ["representation", "measurement", "algorithmic", "evaluation", "deployment"]
+
 
 # ------------------------- Canonicalization -------------------------
 def _canon(s: str) -> str:
@@ -223,8 +235,24 @@ def heatmap_with_stars(
     set_pub_style()
 
     # ----- Ordering & positive-only Z -----
-    row_order = counts.sum(axis=1).sort_values(ascending=False).index
-    col_order = counts.sum(axis=0).sort_values(ascending=False).index
+    # ----- Ordering to match radar script -----
+    # Columns (harms): preferred fixed order when present, then extras by total count desc
+    present_harms = list(counts.columns)
+    preferred_present = [h for h in PREFERRED_HARMS_ORDER if h in present_harms]
+    extras_harms = [h for h in present_harms if h not in PREFERRED_HARMS_ORDER]
+    if extras_harms:
+        extras_harms = list(counts[extras_harms].sum(axis=0).sort_values(ascending=False).index)
+    col_order = preferred_present + extras_harms
+
+    # Rows (biases): fixed list when present, then any extras by total count desc
+    present_biases = list(counts.index)
+    fixed_biases_present = [b for b in BIAS_PLOT_ORDER if b in present_biases]
+    extras_biases = [b for b in present_biases if b not in BIAS_PLOT_ORDER]
+    if extras_biases:
+        extras_biases = list(counts.loc[extras_biases].sum(axis=1).sort_values(ascending=False).index)
+    row_order = fixed_biases_present + extras_biases
+
+    # Positive-only Z in that order
     Zp = Z.loc[row_order, col_order].copy().clip(lower=0.0)
 
     nrows, ncols = Zp.shape
