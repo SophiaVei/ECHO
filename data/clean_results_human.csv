@@ -151,12 +151,12 @@ questionnaire_id,stakeholder,is_group_level,bias_type,domain,harm_family,harm,vo
 7,applicant,False,evaluation,hiring,individual,privacy violation,0,34,0.0,applicant
 7,applicant,False,evaluation,hiring,individual,service or benefit loss,2,34,0.058823529411764705,applicant
 7,applicant,False,evaluation,hiring,individual,technology-facilitated violence,0,34,0.0,applicant
-7,patient,True,evaluation,diagnosis,group,alienation,8,23,0.34782608695652173,patient group
-7,patient,True,evaluation,diagnosis,group,demeaning,4,23,0.17391304347826086,patient group
-7,patient,True,evaluation,diagnosis,group,denying self-identity,4,23,0.17391304347826086,patient group
-7,patient,True,evaluation,diagnosis,group,erasure,2,23,0.08695652173913043,patient group
-7,patient,True,evaluation,diagnosis,group,reifying categories,4,23,0.17391304347826086,patient group
-7,patient,True,evaluation,diagnosis,group,stereotyping,1,23,0.043478260869565216,patient group
+7,patient,True,evaluation,diagnosis,group,alienation,8,21,0.38095238095238093,patient group
+7,patient,True,evaluation,diagnosis,group,demeaning,4,21,0.19047619047619047,patient group
+7,patient,True,evaluation,diagnosis,group,denying self-identity,2,21,0.09523809523809523,patient group
+7,patient,True,evaluation,diagnosis,group,erasure,2,21,0.09523809523809523,patient group
+7,patient,True,evaluation,diagnosis,group,reifying categories,4,21,0.19047619047619047,patient group
+7,patient,True,evaluation,diagnosis,group,stereotyping,1,21,0.047619047619047616,patient group
 7,patient,False,evaluation,diagnosis,individual,alienation,0,34,0.0,patient
 7,patient,False,evaluation,diagnosis,individual,diminished health and well-being,9,34,0.2647058823529412,patient
 7,patient,False,evaluation,diagnosis,individual,economic loss,4,34,0.11764705882352941,patient
@@ -234,13 +234,13 @@ questionnaire_id,stakeholder,is_group_level,bias_type,domain,harm_family,harm,vo
 10,patient,False,representation,diagnosis,individual,privacy violation,1,28,0.03571428571428571,patient
 10,patient,False,representation,diagnosis,individual,service or benefit loss,5,28,0.17857142857142858,patient
 10,patient,False,representation,diagnosis,individual,technology-facilitated violence,0,28,0.0,patient
-11,patient,True,deployment,diagnosis,group,alienation,5,31,0.16129032258064516,patient group
-11,patient,True,deployment,diagnosis,group,demeaning,3,31,0.0967741935483871,patient group
-11,patient,True,deployment,diagnosis,group,denying self-identity,3,31,0.0967741935483871,patient group
-11,patient,True,deployment,diagnosis,group,erasure,4,31,0.12903225806451613,patient group
-11,patient,True,deployment,diagnosis,group,none,8,31,0.25806451612903225,patient group
-11,patient,True,deployment,diagnosis,group,reifying categories,1,31,0.03225806451612903,patient group
-11,patient,True,deployment,diagnosis,group,stereotyping,7,31,0.22580645161290322,patient group
+11,patient,True,deployment,diagnosis,group,alienation,2,28,0.07142857142857142,patient group
+11,patient,True,deployment,diagnosis,group,demeaning,3,28,0.10714285714285714,patient group
+11,patient,True,deployment,diagnosis,group,denying self-identity,4,28,0.14285714285714285,patient group
+11,patient,True,deployment,diagnosis,group,erasure,4,28,0.14285714285714285,patient group
+11,patient,True,deployment,diagnosis,group,none,7,28,0.25,patient group
+11,patient,True,deployment,diagnosis,group,reifying categories,1,28,0.03571428571428571,patient group
+11,patient,True,deployment,diagnosis,group,stereotyping,7,28,0.25,patient group
 11,patient,False,deployment,diagnosis,individual,alienation,8,33,0.24242424242424243,patient
 11,patient,False,deployment,diagnosis,individual,diminished health and well-being,8,33,0.24242424242424243,patient
 11,patient,False,deployment,diagnosis,individual,economic loss,2,33,0.06060606060606061,patient
