@@ -340,7 +340,7 @@ def heatmap_with_stars(
     cbar.set_label("Adjusted residual Z>0")
 
     # Title
-    ax.set_title(title, fontweight="bold", pad=10)
+    #ax.set_title(title, fontweight="bold", pad=10)
 
     # Ensure full matrix area maps to data bounds
     ax.set_xlim(-0.5, ncols - 0.5)
